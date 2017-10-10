@@ -36,9 +36,14 @@ public class DbSeeder implements CommandLineRunner {
                 .number("s312")
                 .build();
 
+        Student alex = Student.builder()
+                .number("blabla")
+                .name("Alex")
+                .build();
+
         this.studentRepository.deleteAll();
 
-        List<Student> students = Arrays.asList(student1, student2, student3);
+        List<Student> students = Arrays.asList(student1, student2, student3, alex);
         this.studentRepository.save(students);
     }
 }

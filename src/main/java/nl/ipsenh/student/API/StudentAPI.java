@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/students")
+@CrossOrigin(value = "*")
 public class StudentAPI {
 
     @Autowired
@@ -41,6 +42,11 @@ public class StudentAPI {
     @GetMapping("/{number}")
     public Student getStudentByNumber(@PathVariable("number") String number) {
         return studentService.getStudentByNumber(number);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteAll() {
+        studentService.deleteAll();
     }
 
 }

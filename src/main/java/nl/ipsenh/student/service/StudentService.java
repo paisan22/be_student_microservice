@@ -38,4 +38,8 @@ public class StudentService {
     public Student getStudentByNumber(String number) {
         return studentRepository.findByNumber(number);
     }
+
+    public void deleteAll() {
+        studentRepository.deleteAll();
+    }
 }
