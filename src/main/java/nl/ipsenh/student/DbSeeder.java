@@ -21,29 +21,19 @@ public class DbSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Student student1 = Student.builder()
-                .name("Gerben")
+
+        Student student = Student.builder()
+                .sureName("Hans")
+                .middleName("de")
+                .lastName("Gans")
+                .email("s123@student.hsleiden.nl")
                 .number("s123")
-                .build();
-
-        Student student2 = Student.builder()
-                .name("Mike")
-                .number("s321")
-                .build();
-
-        Student student3 = Student.builder()
-                .name("Paisan")
-                .number("s312")
-                .build();
-
-        Student alex = Student.builder()
-                .number("blabla")
-                .name("Alex")
+                .phoneNumber("0612341234")
+                .password("password123")
                 .build();
 
         this.studentRepository.deleteAll();
 
-        List<Student> students = Arrays.asList(student1, student2, student3, alex);
-        this.studentRepository.save(students);
+        this.studentRepository.save(student);
     }
 }

@@ -20,6 +20,14 @@ public class Student {
 
     @Id
     private String id;
+
+    private String sureName;
+    private String middleName;
+    private String lastName;
+
+    private String email;
+    private String password;
+
+    private String phoneNumber;
     private String number;
-    private String name;
 }
