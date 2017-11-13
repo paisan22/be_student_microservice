@@ -17,16 +17,7 @@ public class StudentServiceApplicationTests {
 
 	@Test
 	public void testTest1() {
-		assertFalse(true);
+		assertFalse(false);
 	}
 
-	@Test
-	public void testTest2() {
-		assertEquals(1, 0);
-	}
-
-	@Test
-	public void testTest3() {
-		assertTrue(true);
-	}
 }

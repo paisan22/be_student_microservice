@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class StudentServiceApplication {
 
 	public static void main(String[] args) {
+
+		System.out.println(fail)
+
 		SpringApplication.run(StudentServiceApplication.class, args);
 	}
 }
