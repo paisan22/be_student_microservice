@@ -16,10 +16,17 @@ import static org.junit.Assert.assertTrue;
 public class StudentServiceApplicationTests {
 
 	@Test
-	public void contextLoads() {
-		assertTrue(false);
+	public void testTest1() {
 		assertFalse(true);
+	}
+
+	@Test
+	public void testTest2() {
 		assertEquals(1, 0);
 	}
 
+	@Test
+	public void testTest3() {
+		assertTrue(false);
+	}
 }
