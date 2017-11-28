@@ -13,6 +13,6 @@ public class StudentServiceApplicationTests {
 
 	@Test
 	public void testTest1() {
-		assertFalse(false);
+		assertFalse(true);
 	}
 }
