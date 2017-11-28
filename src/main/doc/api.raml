@@ -1,0 +1,181 @@
+#%RAML 1.0
+title: HSSTIP API STUDENT
+version: v1
+baseUri: http://145.97.16.185/{version}
+
+securitySchemes:
+
+/students/all:
+  get:
+    description: List all students matching query criteria.
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+              "id": "5a146b0f5c0e8c2e30ec3a42",
+              "sureName": "Hans",
+              "middleName": "de",
+              "lastName": "Gans",
+              "email": "s123@student.hsleiden.nl",
+              "password": "password123",
+              "phoneNumber": "0612341234",
+              }
+      400:
+        body:
+          application/json:
+            example:
+              {
+                "message" : "Unauthorized."
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Resource path not found"
+              }
+
+
+/students:
+  post:
+    description: Create a new Student
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              sureName: string
+              middleName: string
+              lastName: string
+              email: string
+              password: string
+              phoneNumber: string
+            example:
+              {
+              "sureName": "Hans",
+              "middleName": "de",
+              "lastName": "Gans",
+              "email": "s123@student.hsleiden.nl",
+              "password": "password123",
+              "phoneNumber": "0612341234",
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                 "message" : "Unauthorized."
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                message": "Couldn't create a new Student"
+              }
+
+
+  put:
+    description: Update a Student
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              id: string
+              sureName: string
+              middleName: string
+              lastName: string
+              email: string
+              password: string
+              phoneNumber: string
+            example:
+              {
+              "id": "5a146b0f5c0e8c2e30ec3a42",
+              "sureName": "Hans",
+              "middleName": "de",
+              "lastName": "Gans",
+              "email": "s123@student.hsleiden.nl",
+              "password": "password123",
+              "phoneNumber": "0612341234",
+              }
+      401:
+        body:
+          application/json:
+            example:
+              {
+                 "message" : "Unauthorized."
+              }
+      404:
+        body:
+          application/json:
+            example:
+              {
+                message": "Couldn't update a student"
+              }
+
+  /id:
+    delete:
+      description: Delete a Student
+      queryParameters:
+        id : string
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  message": "OK"
+                }
+        204:
+          body:
+            application/json:
+              example:
+                {
+                  message": "The action has been enacted but the response does not include an entity."
+                }
+
+  /email:
+    get:
+      description: Retrieve a specific student by email
+      queryParameters:
+        email : string
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                sureName: string
+                middleName: string
+                lastName: string
+                email: string
+                password: string
+                phoneNumber: string
+              example:
+                {
+                "sureName": "Hans",
+                "middleName": "de",
+                "lastName": "Gans",
+                "email": "s123@student.hsleiden.nl",
+                "password": "password123",
+                "phoneNumber": "0612341234",
+                }
+        401:
+          body:
+            application/json:
+              example:
+                {
+                   "message" : "Unauthorized."
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  message": "Couldn't update a student"
+                }
