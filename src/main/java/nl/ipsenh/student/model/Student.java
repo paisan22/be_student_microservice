@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -25,9 +26,13 @@ public class Student {
     private String middleName;
     private String lastName;
 
+    @Indexed(unique = true)
+
     private String email;
     private String password;
 
     private String phoneNumber;
-    private String number;
+    private Integer cohort;
+    private String mentor;
+
 }

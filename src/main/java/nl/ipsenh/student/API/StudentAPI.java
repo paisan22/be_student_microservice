@@ -38,15 +38,4 @@ public class StudentAPI {
     public void deleteStudent(@PathVariable("id") String id) {
         studentService.deleteStudent(id);
     }
-
-    @GetMapping("/{number}")
-    public Student getStudentByNumber(@PathVariable("number") String number) {
-        return studentService.getStudentByNumber(number);
-    }
-
-    @DeleteMapping("/delete")
-    public void deleteAll() {
-        studentService.deleteAll();
-    }
-
-    }
+}

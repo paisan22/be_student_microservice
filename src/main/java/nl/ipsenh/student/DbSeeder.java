@@ -24,19 +24,21 @@ public class DbSeeder implements CommandLineRunner {
                 .middleName("de")
                 .lastName("Gans")
                 .email("s123@student.hsleiden.nl")
-                .number("s123")
                 .phoneNumber("0612341234")
                 .password("password123")
+                .cohort(2017)
+                .mentor("Alex van Manen")
                 .build();
 
         Student student2 = Student.builder()
-                .sureName("Hans2")
+                .sureName("Frans")
                 .middleName("de")
-                .lastName("Gans")
-                .email("s123@student.hsleiden.nl")
-                .number("s1234")
+                .lastName("Hans")
+                .email("s321@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
+                .cohort(2018)
+                .mentor("Michiel Boere")
                 .build();
 
         this.studentRepository.deleteAll();

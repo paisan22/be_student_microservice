@@ -35,8 +35,8 @@ public class StudentService {
         studentRepository.delete(id);
     }
 
-    public Student getStudentByNumber(String number) {
-        return studentRepository.findByNumber(number);
+    public Student getStudentByNumber(String email) {
+        return studentRepository.findByEmail(email);
     }
 
     public void deleteAll() {
