@@ -38,4 +38,9 @@ public class StudentAPI {
     public void deleteStudent(@PathVariable("id") String id) {
         studentService.deleteStudent(id);
     }
+
+    @GetMapping
+    public Student getStudentByEmail(@RequestHeader("email") String email) {
+        return studentService.getStudentByEmail(email);
+    }
 }

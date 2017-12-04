@@ -27,7 +27,6 @@ public class Student {
     private String lastName;
 
     @Indexed(unique = true)
-
     private String email;
     private String password;
 
