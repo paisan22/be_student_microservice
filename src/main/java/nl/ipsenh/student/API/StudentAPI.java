@@ -44,9 +44,8 @@ public class StudentAPI {
         return studentService.getStudentByNumber(number);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteAll() {
-        studentService.deleteAll();
-    }
-
-    }
+//    @DeleteMapping("/delete")
+//    public void deleteAll() {
+//        studentService.deleteAll();
+//    }
+}

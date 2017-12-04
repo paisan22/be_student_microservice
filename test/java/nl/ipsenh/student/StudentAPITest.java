@@ -1,29 +1,27 @@
 package nl.ipsenh.student;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.ipsenh.student.API.StudentAPI;
 import nl.ipsenh.student.model.Student;
 import nl.ipsenh.student.service.StudentService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -41,9 +39,6 @@ public class StudentAPITest {
     private StudentAPI studentAPI;
 
     private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setup() {
@@ -86,13 +81,52 @@ public class StudentAPITest {
     }
 
     @Test
-    @Ignore
     public void createNewStudent() throws Exception {
-        this.mockMvc.perform(post("/students"))
-                .andExpect(status().isOk());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Student student = Student.builder()
+                .sureName("test")
+                .sureName("test")
+                .build();
+
+        String json = objectMapper.writeValueAsString(student);
+
+        this.mockMvc.perform(post("/students")
+        .content(json)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
         ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(studentService, times(1)).createStudent(studentArgumentCaptor.capture());
+    }
+
+    @Test
+    public void updateStudentTest() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Student student = Student.builder()
+                .sureName("test")
+                .sureName("test")
+                .build();
+
+        String json = objectMapper.writeValueAsString(student);
+
+        this.mockMvc.perform(put("/students")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
+        verify(studentService, times(1)).updateStudent(studentArgumentCaptor.capture());
+    }
+
+    @Test
+    public void deleteStudentTest() throws Exception {
+
+        this.mockMvc.perform(delete("/students/1"))
+                .andExpect(status().isOk());
+
+        verify(studentService, times(1)).deleteStudent("1");
     }
 
 }
