@@ -24,7 +24,6 @@ public class DbSeeder implements CommandLineRunner {
                 .middleName("de")
                 .lastName("Gans")
                 .email("s123@student.hsleiden.nl")
-                .number("s123")
                 .phoneNumber("0612341234")
                 .password("password123")
                 .build();
@@ -33,8 +32,7 @@ public class DbSeeder implements CommandLineRunner {
                 .sureName("Hans2")
                 .middleName("de")
                 .lastName("Gans")
-                .email("s123@student.hsleiden.nl")
-                .number("s1234")
+                .email("9000@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
                 .build();
