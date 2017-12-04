@@ -22,7 +22,7 @@ securitySchemes:
               "password": "password123",
               "phoneNumber": "0612341234",
               }
-      400:
+      401:
         body:
           application/json:
             example:
@@ -118,7 +118,7 @@ securitySchemes:
                 message": "Couldn't update a student"
               }
 
-  /id:
+  /{id}:
     delete:
       description: Delete a Student
       queryParameters:
@@ -139,7 +139,7 @@ securitySchemes:
                   message": "The action has been enacted but the response does not include an entity."
                 }
 
-  /email:
+  /{email}:
     get:
       description: Retrieve a specific student by email
       queryParameters:
