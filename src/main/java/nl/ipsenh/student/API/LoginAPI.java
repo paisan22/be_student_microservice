@@ -25,6 +25,5 @@ public class LoginAPI {
     @GetMapping(value = "/verify")
     public boolean verifyToken(@RequestHeader("token") String token) throws UnsupportedEncodingException {
         return loginService.verifyToken(token);
-
     }
 }

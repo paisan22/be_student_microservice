@@ -5,6 +5,9 @@ import nl.ipsenh.student.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -21,7 +24,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student createStudent(Student student) {
+    public Student createStudent(Student student) throws NoSuchAlgorithmException {
+
+        student.setPassword(hashPassword(student.getPassword()));
+
         studentRepository.insert(student);
         return student;
     }
@@ -35,7 +41,19 @@ public class StudentService {
         studentRepository.delete(id);
     }
 
+    public void deleteAllStudents() {
+        studentRepository.deleteAll();
+    }
+
     public Student getStudentByEmail(String email) {
         return studentRepository.findByEmail(email);
+    }
+    public String hashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
     }
 }

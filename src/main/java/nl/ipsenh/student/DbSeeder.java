@@ -1,7 +1,7 @@
 package nl.ipsenh.student;
 
 import nl.ipsenh.student.model.Student;
-import nl.ipsenh.student.repository.StudentRepository;
+import nl.ipsenh.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class DbSeeder implements CommandLineRunner {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private StudentService studentService;
 
     @Override
     public void run(String... strings) throws Exception {
 
         Student student = Student.builder()
-                .sureName("Hans")
+                .surName("Hans")
                 .middleName("de")
                 .lastName("Gans")
                 .email("s123@student.hsleiden.nl")
@@ -31,7 +31,7 @@ public class DbSeeder implements CommandLineRunner {
                 .build();
 
         Student student2 = Student.builder()
-                .sureName("Frans")
+                .surName("Frans")
                 .middleName("de")
                 .lastName("Hans")
                 .email("s321@student.hsleiden.nl")
@@ -41,9 +41,9 @@ public class DbSeeder implements CommandLineRunner {
                 .mentor("Michiel Boere")
                 .build();
 
-        this.studentRepository.deleteAll();
+        this.studentService.deleteAllStudents();
 
-        this.studentRepository.save(student);
-        this.studentRepository.save(student2);
+        studentService.createStudent(student);
+        studentService.createStudent(student2);
     }
 }

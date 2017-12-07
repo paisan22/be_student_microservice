@@ -5,6 +5,7 @@ import nl.ipsenh.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class StudentAPI {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
         return studentService.createStudent(student);
     }
 

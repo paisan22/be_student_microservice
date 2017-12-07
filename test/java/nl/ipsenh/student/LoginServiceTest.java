@@ -33,7 +33,7 @@ public class LoginServiceTest {
     @Before
     public void setup() {
         student = Student.builder()
-                .sureName("testTokenUser")
+                .surName("testTokenUser")
                 .email("test@mail.com")
                 .build();
     }
@@ -62,5 +62,9 @@ public class LoginServiceTest {
         boolean result2 = loginService.verifyToken("This.iS.A.Fake.TokEn");
 
         Assert.assertFalse(result2);
+    }
+
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email);
     }
 }

@@ -22,7 +22,7 @@ public class Student {
     @Id
     private String id;
 
-    private String sureName;
+    private String surName;
     private String middleName;
     private String lastName;
 

@@ -49,7 +49,7 @@ public class StudentAPITest {
 
         // stubbing
         Student student = Student.builder()
-                .sureName("Hans")
+                .surName("Hans")
                 .middleName("de")
                 .lastName("Gans")
                 .email("s123@student.hsleiden.nl")
@@ -86,8 +86,8 @@ public class StudentAPITest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Student student = Student.builder()
-                .sureName("test")
-                .sureName("test")
+                .surName("test")
+                .surName("test")
                 .build();
 
         String json = objectMapper.writeValueAsString(student);
@@ -106,8 +106,8 @@ public class StudentAPITest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Student student = Student.builder()
-                .sureName("test")
-                .sureName("test")
+                .surName("test")
+                .surName("test")
                 .build();
 
         String json = objectMapper.writeValueAsString(student);

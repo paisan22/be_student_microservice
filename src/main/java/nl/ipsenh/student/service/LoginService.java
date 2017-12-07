@@ -48,6 +48,7 @@ public class LoginService {
 
         return JWT.create()
                 .withClaim("email", student.getEmail())
+                .withClaim("surname", student.getSurName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) // plus 30 minutes from now
                 .withIssuer("auth0")
                 .sign(algorithm);
