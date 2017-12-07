@@ -77,6 +77,7 @@ public class StudentAPITest {
                 .andExpect(status().isOk());
 
         ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+
         verify(studentService ,times(1)).getStudentByNumber(stringArgumentCaptor.capture());
     }
 

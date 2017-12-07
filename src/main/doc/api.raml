@@ -118,32 +118,20 @@ securitySchemes:
                 message": "Couldn't update a student"
               }
 
-  /{id}:
-    delete:
-      description: Delete a Student
-      queryParameters:
-        id : string
-      responses:
-        200:
-          body:
-            application/json:
-              example:
-                {
-                  message": "OK"
-                }
-        204:
-          body:
-            application/json:
-              example:
-                {
-                  message": "The action has been enacted but the response does not include an entity."
-                }
-
   /{email}:
     get:
       description: Retrieve a specific student by email
-      queryParameters:
-        email : string
+      # queryParameters:
+      #   email : string
+      headers:
+        key:
+          displayName: key
+          description: email
+          type: string
+        value:
+          displayName: value
+          description: email from student
+          type: string
       responses:
         200:
           body:
