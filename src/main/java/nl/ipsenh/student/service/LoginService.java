@@ -7,11 +7,11 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.ipsenh.student.model.Student;
-import nl.ipsenh.student.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -24,19 +24,19 @@ import java.util.Objects;
 public class LoginService {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private StudentService studentService;
 
-    public String Authententicate(String email, String password) throws UnsupportedEncodingException {
+    public String Authententicate(String email, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (isCorrectLogin(email, password)) {
-            Student student = studentRepository.findByEmail(email);
+            Student student = studentService.getStudentByEmail(email);
             return createToken(student);
         }
         return null;
     }
 
-    public boolean isCorrectLogin(String email, String password) {
-        Student student = studentRepository.findByEmail(email);
-        return Objects.equals(student.getPassword(), password);
+    public boolean isCorrectLogin(String email, String password) throws NoSuchAlgorithmException {
+        Student student = studentService.getStudentByEmail(email);
+        return Objects.equals(student.getPassword(), studentService.hashPassword(password));
     }
 
     public String createToken(Student student) throws JWTCreationException, UnsupportedEncodingException {

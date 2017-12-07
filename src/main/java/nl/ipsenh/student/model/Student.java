@@ -28,10 +28,10 @@ public class Student {
 
     @Indexed(unique = true)
     private String email;
+
     private String password;
 
     private String phoneNumber;
-    private Integer cohort;
-    private String mentor;
+    private String slb;
 
 }

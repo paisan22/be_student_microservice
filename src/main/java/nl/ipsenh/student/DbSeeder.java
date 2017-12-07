@@ -26,8 +26,7 @@ public class DbSeeder implements CommandLineRunner {
                 .email("s123@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
-                .cohort(2017)
-                .mentor("Alex van Manen")
+                .slb("Alex van Manen")
                 .build();
 
         Student student2 = Student.builder()
@@ -36,9 +35,8 @@ public class DbSeeder implements CommandLineRunner {
                 .lastName("Hans")
                 .email("s321@student.hsleiden.nl")
                 .phoneNumber("0612341234")
-                .password("password123")
-                .cohort(2018)
-                .mentor("Michiel Boere")
+                .password("password123567")
+                .slb("Michiel Boere")
                 .build();
 
         this.studentService.deleteAllStudents();
