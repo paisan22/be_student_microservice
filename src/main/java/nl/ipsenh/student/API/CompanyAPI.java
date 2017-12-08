@@ -51,6 +51,20 @@ public class CompanyAPI {
         return stringResponseEntity.getStatusCode().toString();
     }
 
+    @GetMapping(value = "/internship")
+    public JSONArray getAllInternships() throws IOException {
+        String resource = companyAPI + "job_offer";
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add("Authorization", getToken());
+
+        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
+
+        return getRequest(resource, parameters);
+
+    }
+
     @PostMapping
     public String createCompany(@RequestBody HashMap<String, String> hashMap) throws IOException {
 
@@ -96,23 +110,8 @@ public class CompanyAPI {
         httpHeaders.add("Authorization", getToken());
 
         HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-        RestTemplate restTemplate = new RestTemplate();
+        return getRequest(resource, parameters);
 
-        try {
-            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-
-            String jsonString = exchange.getBody();
-            JSONParser jsonParser = new JSONParser();
-            Object parse = jsonParser.parse(jsonString);
-
-            return (JSONArray) parse;
-
-        } catch (HttpClientErrorException e) {
-            return null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private String getToken() throws IOException {
@@ -127,6 +126,25 @@ public class CompanyAPI {
         JsonNode token = jsonNode.get("token");
 
         return token.textValue();
+    }
+
+    public JSONArray getRequest(String resource, HttpEntity parameters) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
+
+            String jsonString = exchange.getBody();
+            JSONParser jsonParser = new JSONParser();
+            Object parse = jsonParser.parse(jsonString);
+
+            return (JSONArray) parse;
+
+        } catch (HttpClientErrorException e) {
+            return null;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
