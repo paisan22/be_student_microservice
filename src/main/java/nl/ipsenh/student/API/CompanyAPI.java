@@ -62,7 +62,26 @@ public class CompanyAPI {
         HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
 
         return getRequest(resource, parameters);
+    }
 
+    @GetMapping(value = "internship/{id}")
+    public JSONObject getInternship(@PathVariable("id") String id) throws IOException, ParseException {
+        String resource = companyAPI + "job_offer/" + id;
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add("Authorization", getToken());
+
+        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
+
+        String jsonString = exchange.getBody();
+        JSONParser jsonParser = new JSONParser();
+        Object parse = jsonParser.parse(jsonString);
+
+        return (JSONObject) parse;
     }
 
     @PostMapping
@@ -111,7 +130,6 @@ public class CompanyAPI {
 
         HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
         return getRequest(resource, parameters);
-
     }
 
     private String getToken() throws IOException {
@@ -128,7 +146,7 @@ public class CompanyAPI {
         return token.textValue();
     }
 
-    public JSONArray getRequest(String resource, HttpEntity parameters) {
+    private JSONArray getRequest(String resource, HttpEntity parameters) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
