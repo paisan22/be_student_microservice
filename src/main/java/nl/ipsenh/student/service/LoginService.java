@@ -31,7 +31,7 @@ public class LoginService {
             Student student = studentService.getStudentByEmail(email);
             return createToken(student);
         }
-        return null;
+        return "login incorrect";
     }
 
     public boolean isCorrectLogin(String email, String password) throws NoSuchAlgorithmException {
@@ -68,5 +68,9 @@ public class LoginService {
         } catch (JWTVerificationException e) {
             return false;
         }
+    }
+
+    public boolean resetPassword(String email) throws NoSuchAlgorithmException {
+        return studentService.resetPassword(email);
     }
 }

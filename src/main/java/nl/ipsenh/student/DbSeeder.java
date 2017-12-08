@@ -23,7 +23,7 @@ public class DbSeeder implements CommandLineRunner {
                 .surName("Hans")
                 .middleName("de")
                 .lastName("Gans")
-                .email("s123@student.hsleiden.nl")
+                .email("s1088395@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
                 .slb("Alex van Manen")
