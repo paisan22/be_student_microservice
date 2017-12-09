@@ -50,7 +50,12 @@ public class LoginService {
     }
 
     public String isCorrectPassword(Student student, String password) throws NoSuchAlgorithmException {
-        return String.valueOf(Objects.equals(student.getPassword(), studentService.hashPassword(password)));
+        try {
+            return String.valueOf(Objects.equals(student.getPassword(), studentService.hashPassword(password)));
+        } catch (NullPointerException e) {
+            return "false";
+        }
+
     }
 
     public boolean isCorrectLogin(HashMap<String, String> hashmap) {
