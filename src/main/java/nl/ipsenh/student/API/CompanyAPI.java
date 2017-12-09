@@ -26,7 +26,7 @@ public class CompanyAPI {
     private final String companyAPI = "http://145.97.16.183:8081/";
 
     @PostMapping("/internship/create")
-    public String createInternship(@RequestBody HashMap<String, String> hashMap) throws IOException {
+    public String createInternship(@RequestBody HashMap<String, String> hashMap) throws IOException, ParseException {
 
         String resource = companyAPI + "job_offer";
 
@@ -37,8 +37,12 @@ public class CompanyAPI {
         jsonObject.put("start_date", hashMap.get("start_date")); // yyyy-mm-dd
         jsonObject.put("end_date", hashMap.get("end_date"));
         jsonObject.put("training_type", hashMap.get("internship_type"));
-        jsonObject.put("study_type", hashMap.get("study_specialization"));
 
+        String study_specialization = hashMap.get("study_specialization");
+        JSONParser jsonParser = new JSONParser();
+        JSONArray parse = (JSONArray) jsonParser.parse(study_specialization);
+
+        jsonObject.put("study_type", parse);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
