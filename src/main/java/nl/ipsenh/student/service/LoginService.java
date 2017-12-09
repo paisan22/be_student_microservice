@@ -26,17 +26,38 @@ public class LoginService {
     @Autowired
     private StudentService studentService;
 
-    public String Authententicate(String email, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (isCorrectLogin(email, password)) {
-            Student student = studentService.getStudentByEmail(email);
-            return createToken(student);
+    public HashMap<String, String> Authententicate(String email, String password)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+
+        HashMap<String, String> loginStatus = new HashMap<>();
+        loginStatus.put("email", "false");
+        loginStatus.put("password", "false");
+
+        // check if email exist
+        Student studentByEmail = studentService.getStudentByEmail(email);
+
+        if ((studentByEmail != null) && (studentByEmail instanceof Student)) {
+            loginStatus.put("email", "true");
         }
-        return "login incorrect";
+
+        loginStatus.put("password", isCorrectPassword(studentByEmail, password));
+
+        if (isCorrectLogin(loginStatus)) {
+            loginStatus.put("token", createToken(studentByEmail));
+        }
+
+        return loginStatus;
     }
 
-    public boolean isCorrectLogin(String email, String password) throws NoSuchAlgorithmException {
-        Student student = studentService.getStudentByEmail(email);
-        return Objects.equals(student.getPassword(), studentService.hashPassword(password));
+    public String isCorrectPassword(Student student, String password) throws NoSuchAlgorithmException {
+        return String.valueOf(Objects.equals(student.getPassword(), studentService.hashPassword(password)));
+    }
+
+    public boolean isCorrectLogin(HashMap<String, String> hashmap) {
+        String email = hashmap.get("email");
+        String password = hashmap.get("password");
+
+        return (email == "true" && password == "true");
     }
 
     public String createToken(Student student) throws JWTCreationException, UnsupportedEncodingException {

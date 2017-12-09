@@ -88,6 +88,28 @@ public class CompanyAPI {
         return (JSONObject) parse;
     }
 
+    @GetMapping(value = "/{id}")
+    public JSONObject getCompanyById(@PathVariable("id") String id) throws IOException, ParseException {
+
+        String resource = companyAPI + id;
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add("Authorization", getToken());
+
+        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
+
+        String jsonString = exchange.getBody();
+        JSONParser jsonParser = new JSONParser();
+        Object parse = jsonParser.parse(jsonString);
+
+        return (JSONObject) parse;
+
+    }
+
     @PostMapping
     public String createCompany(@RequestBody HashMap<String, String> hashMap) throws IOException {
 

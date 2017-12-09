@@ -23,7 +23,8 @@ public class LoginAPI {
     private EmailService emailService;
 
     @PostMapping(value = "/login")
-    public String login(@RequestHeader("email") String email, @RequestHeader("password") String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public HashMap<String, String> login(@RequestHeader("email") String email, @RequestHeader("password") String password)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         return loginService.Authententicate(email, password);
     }
