@@ -91,7 +91,7 @@ public class CompanyAPI {
     @GetMapping(value = "/{id}")
     public JSONObject getCompanyById(@PathVariable("id") String id) throws IOException, ParseException {
 
-        String resource = companyAPI + id;
+        String resource = companyAPI + "company/" + id;
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
