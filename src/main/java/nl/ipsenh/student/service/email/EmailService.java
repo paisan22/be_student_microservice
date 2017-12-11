@@ -30,7 +30,7 @@ public class EmailService {
         simpleMailMessage.setSubject("Nieuw account op HSSTIP aangemaakt");
         simpleMailMessage.setText("Er is een nieuw account aangemaakt voor jou op hsstip met de volgende logingegevens: \n" +
                 "Email: " + email + "\n" +
-                "Wachtwoord" + password);
+                "Wachtwoord: " + password);
 
         mailSender.send(simpleMailMessage);
 
