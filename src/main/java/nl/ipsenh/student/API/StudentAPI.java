@@ -35,10 +35,10 @@ public class StudentAPI {
         return studentService.updateStudent(student);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable("id") String id) {
-        studentService.deleteStudent(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deleteStudent(@PathVariable("id") String id) {
+//        studentService.deleteStudent(id);
+//    }
 
     @GetMapping
     public Student getStudentByEmail(@RequestHeader("email") String email) {

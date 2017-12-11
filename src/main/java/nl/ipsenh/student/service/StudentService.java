@@ -32,6 +32,8 @@ public class StudentService {
 
     public Student createStudent(Student student) throws NoSuchAlgorithmException {
 
+//        emailService.sendRegistrationMail(student.getEmail(), student.getPassword());
+
         student.setPassword(hashPassword(student.getPassword()));
 
         studentRepository.insert(student);

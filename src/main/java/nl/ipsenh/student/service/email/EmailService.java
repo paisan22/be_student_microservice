@@ -22,4 +22,19 @@ public class EmailService {
         simpleMailMessage.setText("Je nieuwe wachtwoord voor HSSTIP is: " + password);
         mailSender.send(simpleMailMessage);
     }
+
+    public String sendRegistrationMail(String email, String password) {
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(email);
+        simpleMailMessage.setSubject("Nieuw account op HSSTIP aangemaakt");
+        simpleMailMessage.setText("Er is een nieuw account aangemaakt voor jou op hsstip met de volgende logingegevens: \n" +
+                "Email: " + email + "\n" +
+                "Wachtwoord" + password);
+
+        mailSender.send(simpleMailMessage);
+
+        return simpleMailMessage.getFrom();
+
+    }
 }

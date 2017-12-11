@@ -39,6 +39,16 @@ public class DbSeeder implements CommandLineRunner {
                 .slb("Michiel Boere")
                 .build();
 
+        Student student3 = Student.builder()
+                .surName("Gerben")
+                .middleName("de")
+                .lastName("Hans")
+                .email("s1085142@student.hsleiden.nl")
+                .phoneNumber("0612341234")
+                .password("admin")
+                .slb("Michiel Boere")
+                .build();
+
         this.studentService.deleteAllStudents();
 
         studentService.createStudent(student);
