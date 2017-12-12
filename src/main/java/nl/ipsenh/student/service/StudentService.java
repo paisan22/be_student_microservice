@@ -5,12 +5,14 @@ import nl.ipsenh.student.repository.StudentRepository;
 import nl.ipsenh.student.service.email.EmailService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,14 +32,27 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student createStudent(Student student) throws NoSuchAlgorithmException {
+    public HashMap<String, String> createStudent(Student student) throws NoSuchAlgorithmException, DuplicateKeyException {
 
-        emailService.sendRegistrationMail(student.getEmail(), student.getPassword());
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("message", "false");
+        stringStringHashMap.put("email", student.getEmail());
 
-        student.setPassword(hashPassword(student.getPassword()));
+        try {
+            String tmpPassword = student.getPassword();
 
-        studentRepository.insert(student);
-        return student;
+            student.setPassword(hashPassword(student.getPassword()));
+            studentRepository.insert(student);
+
+            emailService.sendRegistrationMail(student.getEmail(), tmpPassword);
+
+            stringStringHashMap.put("message", "true");
+
+        } catch (DuplicateKeyException e) {
+            stringStringHashMap.put("message", "DuplicateEmail");
+        }
+
+        return stringStringHashMap;
     }
 
     public Student updateStudent(Student student) {

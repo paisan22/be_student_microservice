@@ -4,9 +4,11 @@ import nl.ipsenh.student.DbSeeder;
 import nl.ipsenh.student.model.Student;
 import nl.ipsenh.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class StudentAPI {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/reset")
+    @PostMapping(value = "/reset")
     public boolean resetUser() throws Exception {
 
         DbSeeder dbSeeder = new DbSeeder();
@@ -36,8 +38,11 @@ public class StudentAPI {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
-        return studentService.createStudent(student);
+    public ResponseEntity createStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
+
+        HashMap<String, String> student1 = studentService.createStudent(student);
+
+        return ResponseEntity.ok().body(student1);
     }
 
     @PutMapping
@@ -45,10 +50,10 @@ public class StudentAPI {
         return studentService.updateStudent(student);
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deleteStudent(@PathVariable("id") String id) {
-//        studentService.deleteStudent(id);
-//    }
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable("id") String id) {
+        studentService.deleteStudent(id);
+    }
 
     @GetMapping
     public Student getStudentByEmail(@RequestHeader("email") String email) {

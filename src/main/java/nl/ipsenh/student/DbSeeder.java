@@ -2,6 +2,7 @@ package nl.ipsenh.student;
 
 import nl.ipsenh.student.model.Student;
 import nl.ipsenh.student.repository.StudentRepository;
+import nl.ipsenh.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ public class DbSeeder implements CommandLineRunner {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentService studentService;
 
     @Override
     public void run(String... strings) throws Exception {
@@ -50,6 +54,10 @@ public class DbSeeder implements CommandLineRunner {
                 .build();
 
         this.studentRepository.deleteAll();
+
+        student.setPassword(studentService.hashPassword(student.getPassword()));
+        student2.setPassword(studentService.hashPassword(student2.getPassword()));
+        student3.setPassword(studentService.hashPassword(student3.getPassword()));
 
         studentRepository.save(student);
         studentRepository.save(student2);
