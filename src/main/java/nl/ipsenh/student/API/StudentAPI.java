@@ -51,8 +51,16 @@ public class StudentAPI {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable("id") String id) {
-        studentService.deleteStudent(id);
+    public  boolean deleteStudent(@PathVariable("id") String id) {
+
+        try {
+            studentService.deleteStudent(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
 
     @GetMapping
