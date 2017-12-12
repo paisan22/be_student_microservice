@@ -41,4 +41,11 @@ public class LoginAPI {
 
         return loginService.resetPassword(email);
     }
+
+    @GetMapping(value = "/email_exists")
+    public boolean emailExists(@RequestHeader HashMap<String, String> hashMap) {
+
+        return loginService.emailExists(hashMap.get("email"));
+
+    }
 }

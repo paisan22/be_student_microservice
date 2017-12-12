@@ -99,4 +99,12 @@ public class LoginService {
     public boolean resetPassword(String email) throws NoSuchAlgorithmException {
         return studentService.resetPassword(email);
     }
+
+    public boolean emailExists(String email) {
+        try {
+            return studentService.getStudentByEmail(email) != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
 }
