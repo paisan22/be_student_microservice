@@ -35,11 +35,14 @@ public class LoginAPI {
     }
 
     @PutMapping(value = "/reset_password")
-    public boolean resetPassword(@RequestBody HashMap<String, String> hashMap) throws NoSuchAlgorithmException {
+    public HashMap<String, String> resetPassword(@RequestBody HashMap<String, String> hashMap) throws NoSuchAlgorithmException {
 
         String email = hashMap.get("email");
 
-        return loginService.resetPassword(email);
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("status", "false");
+
+        return loginService.resetPassword(email, stringStringHashMap);
     }
 
     @GetMapping(value = "/email_exists")

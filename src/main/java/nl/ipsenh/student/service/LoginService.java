@@ -96,8 +96,20 @@ public class LoginService {
         }
     }
 
-    public boolean resetPassword(String email) throws NoSuchAlgorithmException {
-        return studentService.resetPassword(email);
+    public HashMap<String, String> resetPassword(String email, HashMap<String, String> stringStringHashMap) throws NoSuchAlgorithmException {
+
+        if (emailExists(email)) {
+            if (studentService.resetPassword(email)) {
+                stringStringHashMap.put("status", "true");
+                stringStringHashMap.put("message", "reset password done");
+                return stringStringHashMap;
+            }
+
+        } else {
+            stringStringHashMap.put("message","already exists");
+            return stringStringHashMap;
+        }
+        return stringStringHashMap;
     }
 
     public boolean emailExists(String email) {
