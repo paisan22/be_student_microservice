@@ -106,4 +106,47 @@ public class StudentService {
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";
         return RandomStringUtils.random( 15, characters );
     }
+
+    public void resetStudentsForDevelopment() throws NoSuchAlgorithmException {
+        Student student = Student.builder()
+                .surName("Hans")
+                .middleName("de")
+                .lastName("Gans")
+                .email("s1088395@student.hsleiden.nl")
+                .phoneNumber("0612341234")
+                .password("password123")
+                .slb("Alex van Manen")
+                .build();
+
+        Student student2 = Student.builder()
+                .surName("Mike")
+                .middleName("de")
+                .lastName("Hans")
+                .email("s1098641@student.hsleiden.nl")
+                .phoneNumber("0612341234")
+                .password("password123")
+                .slb("Michiel Boere")
+                .build();
+
+        Student student3 = Student.builder()
+                .surName("Gerben")
+                .middleName("de")
+                .lastName("Hans")
+                .email("s1085142@student.hsleiden.nl")
+                .phoneNumber("0612341234")
+                .password("admin")
+                .slb("Michiel Boere")
+                .build();
+
+        this.studentRepository.deleteAll();
+
+        student.setPassword(hashPassword(student.getPassword()));
+        student2.setPassword(hashPassword(student2.getPassword()));
+        student3.setPassword(hashPassword(student3.getPassword()));
+
+        studentRepository.save(student);
+        studentRepository.save(student2);
+        studentRepository.save(student3);
+    }
+
 }

@@ -1,6 +1,5 @@
 package nl.ipsenh.student.API;
 
-import nl.ipsenh.student.DbSeeder;
 import nl.ipsenh.student.model.Student;
 import nl.ipsenh.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,7 @@ public class StudentAPI {
     @PostMapping(value = "/reset")
     public boolean resetUser() throws Exception {
 
-        DbSeeder dbSeeder = new DbSeeder();
-        dbSeeder.run();
+        studentService.resetStudentsForDevelopment();
 
         return true;
     }
@@ -67,4 +65,5 @@ public class StudentAPI {
     public Student getStudentByEmail(@RequestHeader("email") String email) {
         return studentService.getStudentByEmail(email);
     }
+
 }
