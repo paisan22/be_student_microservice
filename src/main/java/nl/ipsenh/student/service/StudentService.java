@@ -55,7 +55,8 @@ public class StudentService {
         return stringStringHashMap;
     }
 
-    public Student updateStudent(Student student) {
+    public Student updateStudent(Student student) throws NoSuchAlgorithmException {
+        student.setPassword(hashPassword(student.getPassword()));
         studentRepository.save(student);
         return student;
     }
