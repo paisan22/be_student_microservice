@@ -44,7 +44,7 @@ public class StudentAPI {
     }
 
     @PutMapping
-    public Student updateStudent(@RequestBody Student student) {
+    public Student updateStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
         return studentService.updateStudent(student);
     }
 
