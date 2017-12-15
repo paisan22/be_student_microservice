@@ -110,6 +110,8 @@ public class CompanyAPI {
 
     }
 
+
+
     @PostMapping
     public String createCompany(@RequestBody HashMap<String, String> hashMap) throws IOException {
 
@@ -190,5 +192,28 @@ public class CompanyAPI {
         }
         return null;
     }
+
+    @GetMapping(value = "/internship_overview_table")
+    public JSONArray getDataForInternshipTable() throws IOException, ParseException {
+
+        JSONArray jsonArray = new JSONArray();
+
+        JSONArray allInternships = getAllInternships();
+
+        for (Object jsonObject: allInternships) {
+
+            String company_id = ((JSONObject) jsonObject).get("company_id").toString();
+            JSONObject company = getCompanyById(company_id);
+
+            ((JSONObject) jsonObject).put("company_name", company.get("company_name"));
+
+            jsonArray.add((JSONObject)jsonObject);
+
+        }
+
+        return jsonArray;
+
+    }
+
 
 }
