@@ -28,9 +28,7 @@ public class EmailService {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject("Nieuw account op HSSTIP aangemaakt");
-        simpleMailMessage.setText("Er is een nieuw account aangemaakt voor jou op hsstip met de volgende logingegevens: \n" +
-                "Email: " + email + "\n" +
-                "Wachtwoord: " + password);
+        simpleMailMessage.setText("Er is een nieuw account aangemaakt voor jou op hsstip. Je kunt inloggen met het volgende e-mail: " + email);
 
         mailSender.send(simpleMailMessage);
 
