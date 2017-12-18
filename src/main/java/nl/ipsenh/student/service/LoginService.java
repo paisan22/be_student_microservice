@@ -36,7 +36,7 @@ public class LoginService {
         // check if email exist
         Student studentByEmail = studentService.getStudentByEmail(email);
 
-        if ((studentByEmail != null) && (studentByEmail instanceof Student)) {
+        if (studentExists(studentByEmail)) {
             loginStatus.put("email", "true");
         }
 
@@ -47,6 +47,10 @@ public class LoginService {
         }
 
         return loginStatus;
+    }
+
+    public boolean studentExists(Student student) {
+        return (student != null) && (student instanceof Student);
     }
 
     public String isCorrectPassword(Student student, String password) throws NoSuchAlgorithmException {

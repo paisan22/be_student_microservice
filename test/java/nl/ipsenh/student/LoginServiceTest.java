@@ -39,12 +39,22 @@ public class LoginServiceTest {
     }
 
     @Test
+    public void testStudentExists() {
+
+        boolean result = loginService.studentExists(this.student);
+        Assert.assertTrue(result);
+
+        Student one = this.studentRepository.findOne("0");
+        boolean result2 = loginService.studentExists(one);
+
+        Assert.assertFalse(result2);
+
+        
+    }
+
+    @Test
     public void createTokenTest() throws UnsupportedEncodingException {
         String token = loginService.createToken(this.student);
-
-        System.out.println("---------------------------------- Begin token -----------------------------------------------------");
-        System.out.println(token);
-        System.out.println("----------------------------------End token-----------------------------------------------------");
 
         boolean result = token instanceof String;
 
@@ -67,4 +77,6 @@ public class LoginServiceTest {
     public Student getStudentByEmail(String email) {
         return studentRepository.findByEmail(email);
     }
+
+
 }

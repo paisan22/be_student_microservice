@@ -2,13 +2,7 @@ package nl.ipsenh.student.API;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 
@@ -127,28 +121,29 @@ public class DocentAPI {
 
     }
 
-//    @GetMapping
-//    public JSONArray getAllDocents() {
-//        JSONArray jsonArray = new JSONArray();
-//
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("id", "123");
-//        jsonObject.put("name", "Alex van Manen");
-//
-//        JSONObject jsonObject1 = new JSONObject();
-//        jsonObject1.put("id", "456");
-//        jsonObject1.put("name", "Roland Westveer");
-//
-//        JSONObject jsonObject2 = new JSONObject();
-//        jsonObject2.put("id", "456");
-//        jsonObject2.put("name", "Michiel Boerre");
-//
-//        jsonArray.add(jsonObject);
-//        jsonArray.add(jsonObject1);
-//        jsonArray.add(jsonObject2);
-//
-//        return jsonArray;
-//    }
+    @GetMapping
+    public JSONArray getAllDocents() {
+
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", "123");
+        jsonObject.put("name", "Alex van Manen");
+
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("id", "456");
+        jsonObject1.put("name", "Roland Westveer");
+
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("id", "456");
+        jsonObject2.put("name", "Michiel Boerre");
+
+        jsonArray.add(jsonObject);
+        jsonArray.add(jsonObject1);
+        jsonArray.add(jsonObject2);
+
+        return jsonArray;
+    }
 
     @GetMapping(value = "/email")
     public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
@@ -156,40 +151,40 @@ public class DocentAPI {
     }
 
 
-    @GetMapping
-    public JSONArray getAllDocents() {
-
-        String resource = docentAPI + "docenten/api/list";
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-
-            String jsonString = exchange.getBody();
-            JSONParser jsonParser = new JSONParser();
-            Object parse = jsonParser.parse(jsonString);
-
-            return (JSONArray) parse;
-
-        } catch (HttpClientErrorException e) {
-            return null;
-        }
-        catch (HttpServerErrorException e) {
-            System.out.println(e.getMessage());
-            JSONArray jsonArray = new JSONArray();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("error", e.getMessage());
-            jsonArray.add(jsonObject);
-            return jsonArray;
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    return null;
-    }
+//    @GetMapping
+//    public JSONArray getAllDocents() {
+//
+//        String resource = docentAPI + "docenten/api/list";
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
+//
+//        try {
+//            RestTemplate restTemplate = new RestTemplate();
+//            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
+//
+//            String jsonString = exchange.getBody();
+//            JSONParser jsonParser = new JSONParser();
+//            Object parse = jsonParser.parse(jsonString);
+//
+//            return (JSONArray) parse;
+//
+//        } catch (HttpClientErrorException e) {
+//            return null;
+//        }
+//        catch (HttpServerErrorException e) {
+//            System.out.println(e.getMessage());
+//            JSONArray jsonArray = new JSONArray();
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("error", e.getMessage());
+//            jsonArray.add(jsonObject);
+//            return jsonArray;
+//        }
+//        catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//    return null;
+//    }
 }
