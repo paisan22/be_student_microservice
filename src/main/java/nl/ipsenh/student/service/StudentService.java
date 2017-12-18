@@ -111,7 +111,6 @@ public class StudentService {
     public void resetStudentsForDevelopment() throws NoSuchAlgorithmException {
         Student student = Student.builder()
                 .surName("Hans")
-                .middleName("de")
                 .lastName("Gans")
                 .email("s1088395@student.hsleiden.nl")
                 .phoneNumber("0612341234")
