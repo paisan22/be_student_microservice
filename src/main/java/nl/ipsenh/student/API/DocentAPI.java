@@ -108,7 +108,7 @@ public class DocentAPI {
         return jsonArray;
     }
 
-    @GetMapping
+    @GetMapping(value = "/email")
     public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
 
         return null;
