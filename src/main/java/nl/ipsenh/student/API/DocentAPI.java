@@ -1,5 +1,6 @@
 package nl.ipsenh.student.API;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +82,30 @@ public class DocentAPI {
         }
 
         return stringStringHashMap;
+
+    }
+
+    @GetMapping
+    public JSONArray getAllDocents() {
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", "123");
+        jsonObject.put("name", "Alex van Manen");
+
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("id", "456");
+        jsonObject1.put("name", "Roland Westveer");
+
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("id", "456");
+        jsonObject2.put("name", "Michiel Boerre");
+
+        jsonArray.add(jsonObject);
+        jsonArray.add(jsonObject1);
+        jsonArray.add(jsonObject2);
+
+        return jsonArray;
 
     }
 
