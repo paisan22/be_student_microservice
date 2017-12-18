@@ -17,13 +17,16 @@ public class DocentAPI {
     private final String docentAPI = "http://ipsenh.win/";
 
     @PostMapping(value = "/internship_proposal")
-    public JSONObject createProposal(@RequestBody HashMap<String, String> hashMap) {
+    public HashMap<String, String> createProposal(@RequestBody HashMap<String, String> hashMap) {
 
         System.out.println("request: " + hashMap);
 
         String student_email = hashMap.get("student_email");
         String mentor_id = hashMap.get("mentor_id");
         String proposal = hashMap.get("proposal");
+        String stage_id = hashMap.get("stage_id");
+
+        HashMap<String, String> statusHashmap = checkInternshipProposal(hashMap);
 
         JSONObject jsonObject = new JSONObject();
         JSONObject begeleiderObject = new JSONObject();
@@ -33,8 +36,52 @@ public class DocentAPI {
 
         jsonObject.put("begeleiders", begeleiderObject);
         jsonObject.put("stagevoorstel", proposal);
+        jsonObject.put("stage_id", stage_id);
 
-        return jsonObject;
+        System.out.println(jsonObject);
+
+        return statusHashmap;
+    }
+
+    public HashMap<String, String> checkInternshipProposal(HashMap<String, String> hashMap) {
+
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("status", "true");
+        stringStringHashMap.put("student_email","true");
+        stringStringHashMap.put("mentor_id","true");
+        stringStringHashMap.put("proposal","true");
+        stringStringHashMap.put("stage_id","true");
+
+        if (hashMap.size() != 4) {
+            stringStringHashMap.put("status", "false");
+            stringStringHashMap.put("message", "not all needed keys are available");
+        }
+
+        if (hashMap.get("student_email").isEmpty()) {
+            stringStringHashMap.put("status", "false");
+            stringStringHashMap.put("student_email","false");
+        }
+
+        if (hashMap.get("mentor_id").isEmpty()) {
+            stringStringHashMap.put("status", "false");
+            stringStringHashMap.put("mentor_id","false");
+
+        }
+
+        if (hashMap.get("proposal").isEmpty()) {
+            stringStringHashMap.put("status", "false");
+            stringStringHashMap.put("proposal","false");
+
+        }
+
+        if (hashMap.get("stage_id").isEmpty()) {
+            stringStringHashMap.put("status", "false");
+            stringStringHashMap.put("stage_id","false");
+
+        }
+
+        return stringStringHashMap;
+
     }
 
     @GetMapping
