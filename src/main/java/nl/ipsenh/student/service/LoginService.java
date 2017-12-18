@@ -29,9 +29,7 @@ public class LoginService {
     public HashMap<String, String> Authententicate(String email, String password)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
-        HashMap<String, String> loginStatus = new HashMap<>();
-        loginStatus.put("email", "false");
-        loginStatus.put("password", "false");
+        HashMap<String, String> loginStatus = setLoginStatusHashmap();
 
         // check if email exist
         Student studentByEmail = studentService.getStudentByEmail(email);
@@ -45,6 +43,14 @@ public class LoginService {
         if (isCorrectLogin(loginStatus)) {
             loginStatus.put("token", createToken(studentByEmail));
         }
+
+        return loginStatus;
+    }
+
+    public HashMap<String, String> setLoginStatusHashmap() {
+        HashMap<String, String> loginStatus = new HashMap<>();
+        loginStatus.put("email", "false");
+        loginStatus.put("password", "false");
 
         return loginStatus;
     }

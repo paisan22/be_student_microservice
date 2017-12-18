@@ -13,6 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * Created by paisanrietbroek on 05/12/2017.
@@ -38,6 +41,18 @@ public class LoginServiceTest {
                 .build();
     }
 
+
+
+    @Test
+    public void testSetLoginStatusHashmap() {
+
+        HashMap<String, String> result = this.loginService.setLoginStatusHashmap();
+
+        Assert.assertThat(result.get("email").toString(), is("false"));
+        Assert.assertThat(result.get("password").toString(), is("false"));
+
+    }
+
     @Test
     public void testStudentExists() {
 
@@ -49,7 +64,7 @@ public class LoginServiceTest {
 
         Assert.assertFalse(result2);
 
-        
+
     }
 
     @Test

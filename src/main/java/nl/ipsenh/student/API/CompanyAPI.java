@@ -114,25 +114,20 @@ public class CompanyAPI {
 
 
     @PostMapping
-    public String createCompany(@RequestBody HashMap<String, String> hashMap) throws IOException {
+    public String createCompany(@RequestBody JSONObject jsonObject1) throws IOException {
 
         String resource = companyAPI + "/company";
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("company_name", hashMap.get("company_name"));
-        jsonObject.put("address", hashMap.get("address"));
-        jsonObject.put("zipcode", hashMap.get("zipcode"));
-        jsonObject.put("city", hashMap.get("city"));
-        jsonObject.put("website", hashMap.get("website"));
+        jsonObject.put("company_name", jsonObject1.get("company_name"));
+        jsonObject.put("address", jsonObject1.get("address"));
+        jsonObject.put("zipcode", jsonObject1.get("zipcode"));
+        jsonObject.put("city", jsonObject1.get("city"));
+        jsonObject.put("website", jsonObject1.get("website"));
 
-        JSONArray contactPersonList = new JSONArray();
-        JSONObject contactPerson = new JSONObject();
-        contactPerson.put("person_name", hashMap.get("person_name"));
-        contactPerson.put("phonenumber", hashMap.get("phonenumber"));
-        contactPerson.put("email", hashMap.get("email"));
-        contactPersonList.add(contactPerson);
+        Object contact_person = jsonObject1.get("contact_person");
 
-        jsonObject.put("contact_person", contactPersonList);
+        jsonObject.put("contact_person", contact_person);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
