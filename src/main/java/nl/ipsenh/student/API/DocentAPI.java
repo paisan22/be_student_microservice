@@ -106,7 +106,6 @@ public class DocentAPI {
         jsonArray.add(jsonObject2);
 
         return jsonArray;
-
     }
 
     @GetMapping
