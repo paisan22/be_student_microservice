@@ -9,6 +9,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -152,38 +153,63 @@ public class CompanyAPI {
 
         String resource = companyAPI + "company";
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
+
+        HttpHeaders httpHeaders = createHttpHeaders();
 
         HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
+
         return getRequest(resource, parameters);
+    }
+
+    public HttpHeaders createHttpHeaders() throws IOException {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        httpHeaders.add("Authorization", getToken());
+
+        return httpHeaders;
     }
 
     private String getToken() throws IOException {
 
-        String resource = companyAPI + "token";
+        try {
+            String resource = companyAPI + "token";
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(resource, String.class);
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(resource, String.class);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response.getBody());
-        JsonNode token = jsonNode.get("token");
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            JsonNode token = jsonNode.get("token");
 
-        return token.textValue();
+            return token.textValue();
+        } catch (HttpServerErrorException e) {
+            System.out.println(e.getMessage());
+            return "false";
+        }
+
+
     }
 
     private JSONArray getRequest(String resource, HttpEntity parameters) {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
 
-            String jsonString = exchange.getBody();
-            JSONParser jsonParser = new JSONParser();
-            Object parse = jsonParser.parse(jsonString);
+            if (parameters.getHeaders().get("Authorization").get(0) != "false") {
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
 
-            return (JSONArray) parse;
+                String jsonString = exchange.getBody();
+                JSONParser jsonParser = new JSONParser();
+                Object parse = jsonParser.parse(jsonString);
+
+                return (JSONArray) parse;
+            } else {
+                JSONArray jsonArray = new JSONArray();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("message", "no token available from company API");
+                jsonArray.add(jsonObject);
+                return jsonArray;
+            }
 
         } catch (HttpClientErrorException e) {
             return null;
@@ -208,12 +234,7 @@ public class CompanyAPI {
             ((JSONObject) jsonObject).put("company_name", company.get("company_name"));
 
             jsonArray.add((JSONObject)jsonObject);
-
         }
-
         return jsonArray;
-
     }
-
-
 }
