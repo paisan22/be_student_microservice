@@ -2,13 +2,15 @@ package nl.ipsenh.student.API;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.ipsenh.student.service.RequestService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,193 +27,62 @@ import java.util.HashMap;
 public class CompanyAPI {
 
     private final String companyAPI = "http://145.97.16.183:8081/";
+    private final String CompanyAPI_internship = companyAPI + "job_offer/";
+    private final String CompanyAPI_company = companyAPI + "company/";
+
+    @Autowired
+    private RequestService requestService;
 
     @PostMapping("/internship/create")
     public String createInternship(@RequestBody HashMap<String, String> hashMap) throws IOException, ParseException {
 
-        String resource = companyAPI + "job_offer";
+        JSONObject internshipPostObject = createInternshipPostObject(hashMap);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("company_id", hashMap.get("company_id"));
-        jsonObject.put("title", hashMap.get("title"));
-        jsonObject.put("description", hashMap.get("description"));
-        jsonObject.put("start_date", hashMap.get("start_date")); // yyyy-mm-dd
-        jsonObject.put("end_date", hashMap.get("end_date"));
-        jsonObject.put("training_type", hashMap.get("internship_type"));
+        HttpEntity<String> companyHeader = this.requestService.createCompanyHeader(getToken(), internshipPostObject);
 
-        String study_specialization = hashMap.get("study_specialization");
-        JSONParser jsonParser = new JSONParser();
-        JSONArray parse = (JSONArray) jsonParser.parse(study_specialization);
-
-        jsonObject.put("study_type", parse);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
-
-        HttpEntity<String> httpEntity = new HttpEntity<String>(jsonObject.toJSONString(), httpHeaders);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(resource, httpEntity, String.class);
+        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(CompanyAPI_internship, companyHeader);
 
         return stringResponseEntity.getStatusCode().toString();
     }
 
     @GetMapping(value = "/internship")
-    public JSONArray getAllInternships() throws IOException {
-        String resource = companyAPI + "job_offer";
+    public JSONArray getAllInternships() throws IOException, ParseException {
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
+        return this.requestService.getJSONArrayRequest(this.CompanyAPI_internship, getToken());
 
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        return getRequest(resource, parameters);
     }
 
     @GetMapping(value = "internship/{id}")
     public JSONObject getInternship(@PathVariable("id") String id) throws IOException, ParseException {
-        String resource = companyAPI + "job_offer/" + id;
+        String resource = CompanyAPI_internship + id;
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
-
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-
-        String jsonString = exchange.getBody();
-        JSONParser jsonParser = new JSONParser();
-        Object parse = jsonParser.parse(jsonString);
-
-        return (JSONObject) parse;
+        return this.requestService.getJSONObjectRequest(resource, getToken());
     }
 
     @GetMapping(value = "/{id}")
     public JSONObject getCompanyById(@PathVariable("id") String id) throws IOException, ParseException {
 
-        String resource = companyAPI + "company/" + id;
+        String resource = CompanyAPI_company + id;
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
-
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-
-        String jsonString = exchange.getBody();
-        JSONParser jsonParser = new JSONParser();
-        Object parse = jsonParser.parse(jsonString);
-
-        return (JSONObject) parse;
+        return this.requestService.getJSONObjectRequest(resource, getToken());
 
     }
 
-
-
     @PostMapping
-    public String createCompany(@RequestBody JSONObject jsonObject1) throws IOException {
+    public String createCompany(@RequestBody JSONObject jsonObject) throws IOException {
 
-        String resource = companyAPI + "/company";
+        JSONObject companyPostObject = createCompanyPostObject(jsonObject);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("company_name", jsonObject1.get("company_name"));
-        jsonObject.put("address", jsonObject1.get("address"));
-        jsonObject.put("zipcode", jsonObject1.get("zipcode"));
-        jsonObject.put("city", jsonObject1.get("city"));
-        jsonObject.put("website", jsonObject1.get("website"));
+        HttpEntity<String> companyHeader = this.requestService.createCompanyHeader(getToken(), companyPostObject);
 
-        Object contact_person = jsonObject1.get("contact_person");
+        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(CompanyAPI_company, companyHeader);
 
-        jsonObject.put("contact_person", contact_person);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("Authorization", getToken());
-
-        HttpEntity<String> parameters = new HttpEntity<String>(jsonObject.toJSONString(), httpHeaders);
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(resource, parameters, String.class);
-            return stringResponseEntity.getBody();
-        } catch (HttpClientErrorException e) {
-            return e.getStatusCode().toString();
-        }
+        return stringResponseEntity.getStatusCode().toString();
     }
 
     @GetMapping
-    public JSONArray getAllCompanies() throws IOException {
-
-        String resource = companyAPI + "company";
-
-
-        HttpHeaders httpHeaders = createHttpHeaders();
-
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        return getRequest(resource, parameters);
-    }
-
-    public HttpHeaders createHttpHeaders() throws IOException {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        httpHeaders.add("Authorization", getToken());
-
-        return httpHeaders;
-    }
-
-    private String getToken() throws IOException {
-
-        try {
-            String resource = companyAPI + "token";
-
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> response = restTemplate.getForEntity(resource, String.class);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            JsonNode token = jsonNode.get("token");
-
-            return token.textValue();
-        } catch (HttpServerErrorException e) {
-            System.out.println(e.getMessage());
-            return "false";
-        }
-
-
-    }
-
-    private JSONArray getRequest(String resource, HttpEntity parameters) {
-        try {
-
-            if (parameters.getHeaders().get("Authorization").get(0) != "false") {
-                RestTemplate restTemplate = new RestTemplate();
-                ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-
-                String jsonString = exchange.getBody();
-                JSONParser jsonParser = new JSONParser();
-                Object parse = jsonParser.parse(jsonString);
-
-                return (JSONArray) parse;
-            } else {
-                JSONArray jsonArray = new JSONArray();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message", "no token available from company API");
-                jsonArray.add(jsonObject);
-                return jsonArray;
-            }
-
-        } catch (HttpClientErrorException e) {
-            return null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public JSONArray getAllCompanies() throws IOException, ParseException {
+        return requestService.getJSONArrayRequest(CompanyAPI_company, getToken());
     }
 
     @GetMapping(value = "/internship_overview_table")
@@ -232,4 +103,58 @@ public class CompanyAPI {
         }
         return jsonArray;
     }
+
+    private JSONObject createInternshipPostObject(HashMap<String, String> hashMap) throws ParseException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("company_id", hashMap.get("company_id"));
+        jsonObject.put("title", hashMap.get("title"));
+        jsonObject.put("description", hashMap.get("description"));
+        jsonObject.put("start_date", hashMap.get("start_date")); // yyyy-mm-dd
+        jsonObject.put("end_date", hashMap.get("end_date"));
+        jsonObject.put("training_type", hashMap.get("internship_type"));
+
+        String study_specialization = hashMap.get("study_specialization");
+        JSONParser jsonParser = new JSONParser();
+        JSONArray parse = (JSONArray) jsonParser.parse(study_specialization);
+
+        jsonObject.put("study_type", parse);
+
+        return jsonObject;
+    }
+
+    private String getToken() throws IOException {
+
+        try {
+            String resource = companyAPI + "token";
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(resource, String.class);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            JsonNode token = jsonNode.get("token");
+
+            return token.textValue();
+        } catch (HttpServerErrorException e) {
+            System.out.println(e.getMessage());
+            return "false";
+        }
+
+    }
+
+    public JSONObject createCompanyPostObject(JSONObject jsonObject) {
+        JSONObject result = new JSONObject();
+        result.put("company_name", jsonObject.get("company_name"));
+        result.put("address", jsonObject.get("address"));
+        result.put("zipcode", jsonObject.get("zipcode"));
+        result.put("city", jsonObject.get("city"));
+        result.put("website", jsonObject.get("website"));
+
+        Object contact_person = jsonObject.get("contact_person");
+
+        result.put("contact_person", contact_person);
+
+        return result;
+    }
+
 }

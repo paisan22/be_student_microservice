@@ -34,9 +34,7 @@ public class StudentService {
 
     public HashMap<String, String> createStudent(Student student) throws NoSuchAlgorithmException, DuplicateKeyException {
 
-        HashMap<String, String> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("message", "false");
-        stringStringHashMap.put("email", student.getEmail());
+        HashMap<String, String> studentHashmap = this.createStudentHashmap(student);
 
         try {
             String tmpPassword = student.getPassword();
@@ -46,16 +44,22 @@ public class StudentService {
 
             emailService.sendRegistrationMail(student.getEmail(), tmpPassword);
 
-            stringStringHashMap.put("message", "true");
+            studentHashmap.put("message", "true");
 
         } catch (DuplicateKeyException e) {
-            stringStringHashMap.put("message", "DuplicateEmail");
+            studentHashmap.put("message", "DuplicateEmail");
         }
+
+        return studentHashmap;
+    }
+
+    public HashMap<String, String> createStudentHashmap(Student student) {
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("message", "false");
+        stringStringHashMap.put("email", student.getEmail());
 
         return stringStringHashMap;
     }
-
-
 
     public Student updateStudent(Student student) throws NoSuchAlgorithmException {
         student.setPassword(hashPassword(student.getPassword()));

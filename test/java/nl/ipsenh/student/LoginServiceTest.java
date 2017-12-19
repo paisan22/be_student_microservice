@@ -41,15 +41,13 @@ public class LoginServiceTest {
                 .build();
     }
 
-
-
     @Test
     public void testSetLoginStatusHashmap() {
 
         HashMap<String, String> result = this.loginService.setLoginStatusHashmap();
 
-        Assert.assertThat(result.get("email").toString(), is("false"));
-        Assert.assertThat(result.get("password").toString(), is("false"));
+        Assert.assertThat(result.get("email"), is("false"));
+        Assert.assertThat(result.get("password"), is("false"));
 
     }
 

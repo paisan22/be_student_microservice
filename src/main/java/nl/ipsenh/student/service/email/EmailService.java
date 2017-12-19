@@ -3,13 +3,13 @@ package nl.ipsenh.student.service.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by paisanrietbroek on 08/12/2017.
  */
 
-@Service
+@Component
 public class EmailService {
 
     @Autowired

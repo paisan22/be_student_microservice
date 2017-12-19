@@ -1,7 +1,6 @@
 package nl.ipsenh.student.API;
 
 import nl.ipsenh.student.service.LoginService;
-import nl.ipsenh.student.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +17,6 @@ public class LoginAPI {
 
     @Autowired
     private LoginService loginService;
-
-    @Autowired
-    private EmailService emailService;
 
     @PostMapping(value = "/login")
     public HashMap<String, String> login(@RequestHeader("email") String email, @RequestHeader("password") String password)
