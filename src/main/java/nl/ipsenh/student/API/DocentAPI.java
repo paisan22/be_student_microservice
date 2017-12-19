@@ -164,14 +164,13 @@ public class DocentAPI {
 
             if (slbEmail) {
                 return o;
-            } else {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message", "not found");
-
-                return jsonObject;
             }
         }
-        return null;
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "not found");
+
+        return jsonObject;
 
     }
 
