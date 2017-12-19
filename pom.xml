@@ -98,24 +98,10 @@
 		<plugins>
 
 			<plugin>
-				<groupId>org.openclover</groupId>
-				<artifactId>clover-maven-plugin</artifactId>
-				<configuration>
-					<generateXml>true</generateXml>
-					<generatePdf>true</generatePdf>
-					<generateHtml>false</generateHtml>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>clean</goal>
-							<goal>instrument</goal>
-							<goal>clover</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 
 		</plugins>
 	</build>
