@@ -63,13 +63,23 @@ public class StudentService {
 
     public Student updateStudent(Student student) throws NoSuchAlgorithmException {
 
-        if (student.getPassword().isEmpty()) {
-            student.setPassword(student.getPassword());
+        Student one = studentRepository.findOne(student.getId());
+
+        one.setEmail(student.getEmail());
+        one.setLastName(student.getLastName());
+        one.setSurName(student.getSurName());
+        one.setMiddleName(student.getMiddleName());
+        one.setSlb(student.getSlb());
+        one.setPhoneNumber(student.getPhoneNumber());
+
+        if (one.getPassword().isEmpty()) {
+            one.setPassword(one.getPassword());
         } else {
-            student.setPassword(hashPassword(student.getPassword()));
+            one.setPassword(hashPassword(one.getPassword()));
         }
-        studentRepository.save(student);
-        return student;
+
+        studentRepository.save(one);
+        return one;
     }
 
     public void deleteStudent(String id) {
