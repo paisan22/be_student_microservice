@@ -62,7 +62,12 @@ public class StudentService {
     }
 
     public Student updateStudent(Student student) throws NoSuchAlgorithmException {
-        student.setPassword(hashPassword(student.getPassword()));
+
+        if (student.getPassword().isEmpty()) {
+            student.setPassword(student.getPassword());
+        } else {
+            student.setPassword(hashPassword(student.getPassword()));
+        }
         studentRepository.save(student);
         return student;
     }
