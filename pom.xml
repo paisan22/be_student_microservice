@@ -109,10 +109,6 @@
 
 		</plugins>
 
-		<testResources>
-			src/test/java
-		</testResources>
-
 	</build>
 
 </project>
