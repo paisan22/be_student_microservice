@@ -45,6 +45,10 @@ public class StudentAPI {
 
     @PutMapping
     public Student updateStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
+
+        System.out.println(student);
+        System.out.println(student.getEmail());
+
         return studentService.updateStudent(student);
     }
 
