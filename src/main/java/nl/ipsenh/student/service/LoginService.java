@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import nl.ipsenh.student.API.DocentAPI;
 import nl.ipsenh.student.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,15 @@ public class LoginService {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private DocentAPI docentAPI;
+
     public HashMap<String, String> Authententicate(String email, String password)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         HashMap<String, String> loginStatus = setLoginStatusHashmap();
+
+
 
         // check if email exist
         Student studentByEmail = studentService.getStudentByEmail(email);
@@ -83,6 +89,8 @@ public class LoginService {
         headerClaims.put("student", student.getEmail());
 
         return JWT.create()
+                .withClaim("slb_id", 1)
+                .withClaim("slb_name", "Alex van Manen")
                 .withClaim("email", student.getEmail())
                 .withClaim("surname", student.getSurName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) // plus 30 minutes from now

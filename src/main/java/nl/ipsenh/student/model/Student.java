@@ -33,6 +33,7 @@ public class Student {
     private String password;
 
     private String phoneNumber;
-    private String slb;
+
+    private String slbEmail;
 
 }

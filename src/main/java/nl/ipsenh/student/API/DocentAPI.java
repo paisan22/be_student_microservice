@@ -129,20 +129,43 @@ public class DocentAPI {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", "123");
         jsonObject.put("name", "Alex van Manen");
+        jsonObject.put("slbEmail", "alex@mail.nl");
 
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("id", "456");
         jsonObject1.put("name", "Roland Westveer");
+        jsonObject1.put("slbEmail", "roland@mail.nl");
 
         JSONObject jsonObject2 = new JSONObject();
         jsonObject2.put("id", "456");
         jsonObject2.put("name", "Michiel Boerre");
+        jsonObject2.put("slbEmail", "michiel@mail.nl");
 
         jsonArray.add(jsonObject);
         jsonArray.add(jsonObject1);
         jsonArray.add(jsonObject2);
 
         return jsonArray;
+    }
+
+    @GetMapping(value = "/{email}")
+    public JSONObject getDocentByEmail(@PathVariable String email) {
+
+        JSONArray allDocents = getAllDocents();
+
+        for (int i = 0; i < allDocents.size(); i++) {
+            JSONObject o = (JSONObject) allDocents.get(i);
+            boolean slbEmail = o.get("slbEmail") == email;
+
+            if (slbEmail) {
+                return o;
+            }
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "not found");
+        return jsonObject;
+
     }
 
     @GetMapping(value = "/email")

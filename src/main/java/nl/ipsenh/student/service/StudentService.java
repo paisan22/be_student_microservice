@@ -69,7 +69,7 @@ public class StudentService {
         one.setLastName(student.getLastName());
         one.setSurName(student.getSurName());
         one.setMiddleName(student.getMiddleName());
-        one.setSlb(student.getSlb());
+        one.setSlbEmail(student.getSlbEmail());
         one.setPhoneNumber(student.getPhoneNumber());
 
         if (student.getPassword().isEmpty()) {
@@ -136,7 +136,7 @@ public class StudentService {
                 .email("s1088395@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
-                .slb("Alex van Manen")
+                .slbEmail("alex@mail.nl")
                 .build();
 
         Student student2 = Student.builder()
@@ -146,7 +146,7 @@ public class StudentService {
                 .email("s1098641@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("password123")
-                .slb("Michiel Boere")
+                .slbEmail("michiel@mail.nl")
                 .build();
 
         Student student3 = Student.builder()
@@ -156,7 +156,7 @@ public class StudentService {
                 .email("s1085142@student.hsleiden.nl")
                 .phoneNumber("0612341234")
                 .password("admin")
-                .slb("Michiel Boere")
+                .slbEmail("roland@mail.nl")
                 .build();
 
         this.studentRepository.deleteAll();
