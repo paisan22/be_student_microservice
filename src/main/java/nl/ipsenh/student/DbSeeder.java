@@ -21,6 +21,7 @@ public class DbSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        // development purpose
         this.studentService.resetStudentsForDevelopment();
     }
 }
