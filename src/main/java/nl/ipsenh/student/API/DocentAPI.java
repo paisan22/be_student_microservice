@@ -148,30 +148,37 @@ public class DocentAPI {
         return jsonArray;
     }
 
-    @GetMapping(value = "/{email}")
-    public JSONObject getDocentByEmail(@PathVariable String email) {
+    @GetMapping(value = "/slb")
+    public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
+
+        String slb_email = hashMap.get("slb_email");
 
         JSONArray allDocents = getAllDocents();
 
         for (int i = 0; i < allDocents.size(); i++) {
+
             JSONObject o = (JSONObject) allDocents.get(i);
-            boolean slbEmail = o.get("slbEmail") == email;
+            boolean slbEmail = o.get("slbEmail").equals(slb_email);
+
+            System.out.println(o.get("slbEmail"));
 
             if (slbEmail) {
                 return o;
+            } else {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("message", "not found");
+
+                return jsonObject;
             }
         }
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", "not found");
-        return jsonObject;
-
-    }
-
-    @GetMapping(value = "/email")
-    public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
         return null;
+
     }
+
+//    @GetMapping(value = "/email")
+//    public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
+//        return null;
+//    }
 
 
 //    @GetMapping

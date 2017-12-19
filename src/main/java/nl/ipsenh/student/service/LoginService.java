@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.ipsenh.student.API.DocentAPI;
 import nl.ipsenh.student.model.Student;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,9 +89,14 @@ public class LoginService {
         HashMap<String, Object> headerClaims = new HashMap<>();
         headerClaims.put("student", student.getEmail());
 
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("slb_email", student.getSlbEmail());
+
+        JSONObject docentByEmail = docentAPI.getDocentByEmail(stringStringHashMap);
+
         return JWT.create()
-                .withClaim("slb_id", 1)
-                .withClaim("slb_name", "Alex van Manen")
+                .withClaim("slb_id", docentByEmail.get("id").toString())
+                .withClaim("slb_name", docentByEmail.get("name").toString())
                 .withClaim("email", student.getEmail())
                 .withClaim("surname", student.getSurName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) // plus 30 minutes from now
