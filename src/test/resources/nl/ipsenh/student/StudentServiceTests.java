@@ -1,11 +1,14 @@
 package nl.ipsenh.student;
 
+import nl.ipsenh.student.repository.StudentRepository;
 import nl.ipsenh.student.service.StudentService;
+import nl.ipsenh.student.service.email.EmailService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.NoSuchAlgorithmException;
@@ -13,10 +16,16 @@ import java.security.NoSuchAlgorithmException;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class StudentServiceApplicationTests {
+@ContextConfiguration
+public class StudentServiceTests {
 
-	@Autowired
+	@Mock
+	private StudentRepository studentRepository;
+
+	@Mock
+	private EmailService emailService;
+
+	@InjectMocks
 	private StudentService studentService;
 
 	@Test

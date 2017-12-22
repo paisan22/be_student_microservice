@@ -1,8 +1,10 @@
 package nl.ipsenh.student;
 
+import nl.ipsenh.student.API.DocentAPI;
 import nl.ipsenh.student.model.Student;
 import nl.ipsenh.student.repository.StudentRepository;
 import nl.ipsenh.student.service.LoginService;
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by paisanrietbroek on 05/12/2017.
@@ -28,6 +32,9 @@ public class LoginServiceTest {
     @Mock
     private StudentRepository studentRepository;
 
+    @Mock
+    private DocentAPI docentAPI;
+
     @InjectMocks
     private LoginService loginService;
 
@@ -39,6 +46,13 @@ public class LoginServiceTest {
                 .surName("testTokenUser")
                 .email("test@mail.com")
                 .build();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", "1");
+        jsonObject.put("name", "Docent");
+
+        when(this.docentAPI.getDocentByEmail(any(HashMap.class)))
+                .thenReturn(jsonObject);
     }
 
     @Test
@@ -67,6 +81,7 @@ public class LoginServiceTest {
 
     @Test
     public void createTokenTest() throws UnsupportedEncodingException {
+
         String token = loginService.createToken(this.student);
 
         boolean result = token instanceof String;
