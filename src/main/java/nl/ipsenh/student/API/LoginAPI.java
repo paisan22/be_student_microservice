@@ -19,7 +19,7 @@ public class LoginAPI {
     private LoginService loginService;
 
     @PostMapping(value = "/login")
-    public HashMap<String, String> login(@RequestHeader("email") String email, @RequestHeader("password") String password)
+    public HashMap login(@RequestHeader("email") String email, @RequestHeader("password") String password)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         return loginService.Authententicate(email, password);
@@ -31,7 +31,7 @@ public class LoginAPI {
     }
 
     @PutMapping(value = "/reset_password")
-    public HashMap<String, String> resetPassword(@RequestBody HashMap<String, String> hashMap) throws NoSuchAlgorithmException {
+    public HashMap resetPassword(@RequestBody HashMap<String, String> hashMap) throws NoSuchAlgorithmException {
 
         String email = hashMap.get("email");
 

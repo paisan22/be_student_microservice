@@ -1,7 +1,9 @@
 package nl.ipsenh.student.API;
 
+import nl.ipsenh.student.service.RequestService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -14,6 +16,9 @@ import java.util.HashMap;
 @RequestMapping(value = "/docent")
 @CrossOrigin(value = "*")
 public class DocentAPI {
+
+    @Autowired
+    private RequestService requestService;
 
     private final String docentAPI = "http://ipsenh.win/";
 
@@ -29,96 +34,27 @@ public class DocentAPI {
         String proposal = hashMap.get("proposal");
         String stage_id = hashMap.get("stage_id");
 
-        JSONObject jsonObjectCheck = checkInternshipProposal(hashMap);
-
-        if (jsonObjectCheck.get("status").toString() == "true") {
-
-//            HttpHeaders httpHeaders = new HttpHeaders();
-//            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//            HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-//
-//            try {
-//                RestTemplate restTemplate = new RestTemplate();
-//                ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.POST, parameters, String.class);
-//
-//                String jsonString = exchange.getBody();
-//                JSONParser jsonParser = new JSONParser();
-//
-//            } catch (HttpClientErrorException e) {
-//                JSONObject jsonObject = new JSONObject();
-//                jsonObject.put("status", "false");
-//                jsonObject.put("message", "docentAPI connection error");
-//                return jsonObject;
-//            }
-//            catch (HttpServerErrorException e) {
-//
-//                JSONObject jsonObject = new JSONObject();
-//                jsonObject.put("status", "false");
-//                jsonObject.put("message", "docentAPI connection error");
-//                return jsonObject;
-//            }
-//
-//            JSONObject jsonObject = new JSONObject();
-//            JSONObject begeleiderObject = new JSONObject();
-//            begeleiderObject.put("id", mentor_id);
-//            begeleiderObject.put("rol", "mentor");
-//
-//            jsonObject.put("studenten_email", student_email);
-//
-//            jsonObject.put("begeleiders", begeleiderObject);
-//            jsonObject.put("stagevoorstel", proposal);
-//            jsonObject.put("stage_id", stage_id);
-//
-//
-//
-//            return jsonObject;
-
-            return jsonObjectCheck;
-        }
-
-        return jsonObjectCheck;
-    }
-
-    public JSONObject checkInternshipProposal(HashMap<String, String> hashMap) {
-
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("student_email", student_email);
 
-        jsonObject.put("status", "true");
-        jsonObject.put("student_email","true");
-        jsonObject.put("mentor_id","true");
-        jsonObject.put("proposal","true");
-        jsonObject.put("stage_id","true");
+        JSONObject begeleiders = new JSONObject();
+        begeleiders.put("id", mentor_id);
+        begeleiders.put("rol", "mentor");
 
-        if (hashMap.size() != 4) {
-            jsonObject.put("status", "false");
-            jsonObject.put("message", "not all needed keys are available");
-        }
+        jsonObject.put("begeleiders", begeleiders);
 
-        if (hashMap.get("student_email").isEmpty()) {
-            jsonObject.put("status", "false");
-            jsonObject.put("student_email","false");
-        }
+        jsonObject.put("stagevoorstel", proposal);
+        jsonObject.put("stage_id", stage_id);
 
-        if (hashMap.get("mentor_id").isEmpty()) {
-            jsonObject.put("status", "false");
-            jsonObject.put("mentor_id","false");
+        JSONObject status = new JSONObject();
+        status.put("text", "In behandeling door mentor");
+        status.put("percentage", "10");
+        jsonObject.put("status", status);
 
-        }
-
-        if (hashMap.get("proposal").isEmpty()) {
-            jsonObject.put("status", "false");
-            jsonObject.put("proposal","false");
-
-        }
-
-        if (hashMap.get("stage_id").isEmpty()) {
-            jsonObject.put("status", "false");
-            jsonObject.put("stage_id","false");
-
-        }
+//        HttpEntity<String> headers = requestService.createHeaders();
+//        ResponseEntity<String> stringResponseEntity = requestService.performPostRequest(resource, headers);
 
         return jsonObject;
-
     }
 
     @GetMapping
