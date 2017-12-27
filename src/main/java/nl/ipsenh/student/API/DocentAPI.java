@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by paisanrietbroek on 12/12/2017.
@@ -48,7 +49,7 @@ public class DocentAPI {
 
         JSONObject status = new JSONObject();
         status.put("text", "In behandeling door mentor");
-        status.put("percentage", "10");
+        status.put("percentage", "20");
         jsonObject.put("status", status);
 
 //        HttpEntity<String> headers = requestService.createHeaders();
@@ -110,46 +111,36 @@ public class DocentAPI {
 
     }
 
-//    @GetMapping(value = "/email")
-//    public JSONObject getDocentByEmail(@RequestHeader HashMap<String, String> hashMap) {
-//        return null;
-//    }
+    @GetMapping(value = "/internship")
+    public JSONObject getIntenship(@RequestHeader HashMap hashMap) {
+
+        String email = hashMap.get("email").toString();
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("internship_description", "Bedrijfsbeschrijving");
+        jsonObject.put("company_name", "bedrijfsnaam");
+
+        // email van mike
+        if (Objects.equals(email, "s1098641@student.hsleiden.nl")) {
+            jsonObject.put("stagevoorstel", "test voorstel beschrijving van mike");
 
 
-//    @GetMapping
-//    public JSONArray getAllDocents() {
-//
-//        String resource = docentAPI + "docenten/api/list";
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-//
-//        try {
-//            RestTemplate restTemplate = new RestTemplate();
-//            ResponseEntity<String> exchange = restTemplate.exchange(resource, HttpMethod.GET, parameters, String.class);
-//
-//            String jsonString = exchange.getBody();
-//            JSONParser jsonParser = new JSONParser();
-//            Object parse = jsonParser.parse(jsonString);
-//
-//            return (JSONArray) parse;
-//
-//        } catch (HttpClientErrorException e) {
-//            return null;
-//        }
-//        catch (HttpServerErrorException e) {
-//            System.out.println(e.getMessage());
-//            JSONArray jsonArray = new JSONArray();
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("error", e.getMessage());
-//            jsonArray.add(jsonObject);
-//            return jsonArray;
-//        }
-//        catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//    return null;
-//    }
+            JSONObject status = new JSONObject();
+            status.put("text", "Voorstel in behandeling door Stage Coördinator");
+            status.put("percentage", 60);
+            jsonObject.put("status", status);
+        }
+
+        // email van gerben
+        if (Objects.equals(email, "s1085142@student.hsleiden.nl")) {
+            jsonObject.put("stagevoorstel", "test voorstel beschrijving van gerben");
+
+            JSONObject status = new JSONObject();
+            status.put("text", "Stagevoorstel goedgekeurd! Je bent klaar om stage te lopen.");
+            status.put("percentage", 100);
+            jsonObject.put("status", status);
+        }
+
+        return jsonObject;
+    }
 }
