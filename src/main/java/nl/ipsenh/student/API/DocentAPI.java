@@ -126,8 +126,8 @@ public class DocentAPI {
 
 
             JSONObject status = new JSONObject();
-            status.put("text", "Voorstel in behandeling door Stage Coördinator");
-            status.put("percentage", 60);
+            status.put("text", "Aanpassingen van de student vereist");
+            status.put("percentage", 12);
             jsonObject.put("status", status);
         }
 
