@@ -22,9 +22,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
@@ -59,8 +61,6 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.7.9</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -98,23 +98,77 @@
 		<plugins>
 
 			<plugin>
-				<groupId>org.openclover</groupId>
-				<artifactId>clover-maven-plugin</artifactId>
-				<configuration>
-					<generateXml>true</generateXml>
-					<generatePdf>true</generatePdf>
-					<generateHtml>false</generateHtml>
-				</configuration>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.5.201505241946</version>
+
 				<executions>
+					<!--
+                        Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Surefire plugin is executed.
+                    -->
 					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<destFile>${project.build.directory}/jacoco.exec</destFile>
+							<!--
+                                Sets the name of the property containing the settings
+                                for JaCoCo runtime agent.
+                            -->
+							<propertyName>surefireArgLine</propertyName>
+							<append>false</append>
+						</configuration>
+					</execution>
+					<!--
+                        Ensures that the code coverage report for unit tests is created after
+                        unit tests have been run.
+                    -->
+					<execution>
+						<id>post-unit-test</id>
 						<phase>test</phase>
 						<goals>
-							<goal>clean</goal>
-							<goal>instrument</goal>
-							<goal>clover</goal>
+							<goal>report</goal>
 						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<dataFile>${project.build.directory}/code-coverage/jacoco.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>${project.build.directory}/code-coverage/report</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20.1</version>
+				<configuration>
+					<!-- Sets the VM argument line used when unit tests are run. -->
+					<argLine>${surefireArgLine}</argLine>
+
+					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
+					<skipTests>${skip.unit.tests}</skipTests>
+
+					<includes>
+						<include>${project.basedir}/test</include>
+						<include>**/Test*.java</include>
+						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+						<include>**/*TestCase.java</include>
+					</includes>
+
+					<!-- Excludes integration tests when unit tests are run. -->
+					<excludes>
+						<exclude>**/IT*.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 
 		</plugins>
