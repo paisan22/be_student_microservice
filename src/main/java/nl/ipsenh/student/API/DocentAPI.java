@@ -117,6 +117,8 @@ public class DocentAPI {
         String email = (String) hashMap.get("email");
 
         JSONObject jsonObject = new JSONObject();
+        JSONObject status = new JSONObject();
+        status.put("percentage", 0);
 
         jsonObject.put("internship_description", "Bedrijfsbeschrijving");
         jsonObject.put("company_name", "bedrijfsnaam");
@@ -125,22 +127,20 @@ public class DocentAPI {
         if (Objects.equals(email, "s1098641@student.hsleiden.nl")) {
             jsonObject.put("stagevoorstel", "test voorstel beschrijving van mike");
 
-
-            JSONObject status = new JSONObject();
             status.put("text", "Aanpassingen van de student vereist");
             status.put("percentage", 12);
-            jsonObject.put("status", status);
+
         }
 
         // email van gerben
         if (Objects.equals(email, "s1085142@student.hsleiden.nl")) {
             jsonObject.put("stagevoorstel", "test voorstel beschrijving van gerben");
 
-            JSONObject status = new JSONObject();
             status.put("text", "Stagevoorstel goedgekeurd! Je bent klaar om stage te lopen.");
             status.put("percentage", 100);
-            jsonObject.put("status", status);
         }
+
+        jsonObject.put("status", status);
 
         return jsonObject;
     }
