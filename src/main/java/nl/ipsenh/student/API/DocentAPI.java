@@ -114,7 +114,8 @@ public class DocentAPI {
     @GetMapping(value = "/internship")
     public JSONObject getIntenship(@RequestHeader HashMap hashMap) {
 
-        String email = hashMap.get("email").toString();
+        String email = (String) hashMap.get("email");
+
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("internship_description", "Bedrijfsbeschrijving");
