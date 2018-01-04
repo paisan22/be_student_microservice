@@ -7,6 +7,7 @@ import nl.ipsenh.student.service.LoginService;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -63,6 +64,12 @@ public class LoginServiceTest {
         Assert.assertThat(result.get("email"), is("false"));
         Assert.assertThat(result.get("password"), is("false"));
 
+    }
+
+    @Test
+    @Ignore
+    public void testFailed() {
+        Assert.assertTrue(false);
     }
 
     @Test
