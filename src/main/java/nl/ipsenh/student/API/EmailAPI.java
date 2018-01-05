@@ -31,4 +31,15 @@ public class EmailAPI {
         return emailService.sendRegistrationMail(email, password);
     }
 
+    @PostMapping("/email_error")
+    public void emailErrorToOwner(@RequestBody HashMap<String, String> hashMap) {
+
+        String error = hashMap.get("error");
+        String datetime = hashMap.get("datetime");
+        String attemptMessage = hashMap.get("attemptMessage");
+
+        this.emailService.sendErrorToOwner(error, datetime, attemptMessage);
+
+    }
+
 }
