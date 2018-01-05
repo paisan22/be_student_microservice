@@ -39,7 +39,6 @@ public class EmailAPI {
         String attemptMessage = hashMap.get("attemptMessage");
 
         this.emailService.sendErrorToOwner(error, datetime, attemptMessage);
-
     }
 
 }

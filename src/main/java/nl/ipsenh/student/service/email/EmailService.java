@@ -43,7 +43,6 @@ public class EmailService {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(this.emailOwner);
-        System.out.println(this.emailOwner);
         simpleMailMessage.setSubject("Error notification from HSSTIP");
         simpleMailMessage.setText(
                 "Date time: " + datetime + "\n" +
