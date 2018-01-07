@@ -39,12 +39,10 @@ public class StudentService {
         HashMap<String, String> studentHashmap = this.createStudentHashmap(student);
 
         try {
-            String tmpPassword = student.getPassword();
-
             student.setPassword(hashPassword(student.getPassword()));
             studentRepository.insert(student);
 
-            emailService.sendRegistrationMail(student.getEmail(), tmpPassword);
+            emailService.sendRegistrationMail(student.getEmail());
 
             studentHashmap.put(MESSAGE, "true");
 
