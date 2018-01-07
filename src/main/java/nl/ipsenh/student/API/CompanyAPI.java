@@ -27,8 +27,8 @@ import java.util.HashMap;
 public class CompanyAPI {
 
     private static final String RESOURCE_COMPANY_API = "http://145.97.16.183:8081/";
-    private static final String RESOURCE_CompanyAPI_internship = RESOURCE_COMPANY_API + "job_offer/";
-    private static final String RESOURCE_CompanyAPI_company = RESOURCE_COMPANY_API + "company/";
+    private static final String RESOURCE_COMPANY_API_INTERNSHIP = RESOURCE_COMPANY_API + "job_offer/";
+    private static final String RESOURCE_COMPANY_API_COMPANY = RESOURCE_COMPANY_API + "company/";
 
     private static final String COMPANY_ID = "company_id";
     private static final String COMPANY_NAME = "company_name";
@@ -43,7 +43,7 @@ public class CompanyAPI {
 
         HttpEntity<String> companyHeader = this.requestService.createCompanyHeader(getToken(), internshipPostObject);
 
-        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_CompanyAPI_internship, companyHeader);
+        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_COMPANY_API_INTERNSHIP, companyHeader);
 
         return stringResponseEntity.getStatusCode().toString();
     }
@@ -51,13 +51,13 @@ public class CompanyAPI {
     @GetMapping(value = "/internship")
     public JSONArray getAllInternships() throws IOException, ParseException {
 
-        return this.requestService.getJSONArrayRequest(RESOURCE_CompanyAPI_internship, getToken());
+        return this.requestService.getJSONArrayRequest(RESOURCE_COMPANY_API_INTERNSHIP, getToken());
 
     }
 
     @GetMapping(value = "internship/{id}")
     public JSONObject getInternship(@PathVariable("id") String id) throws IOException, ParseException {
-        String resource = RESOURCE_CompanyAPI_internship + id;
+        String resource = RESOURCE_COMPANY_API_INTERNSHIP + id;
 
         return this.requestService.getJSONObjectRequest(resource, getToken());
     }
@@ -65,7 +65,7 @@ public class CompanyAPI {
     @GetMapping(value = "/{id}")
     public JSONObject getCompanyById(@PathVariable("id") String id) throws IOException, ParseException {
 
-        String resource = RESOURCE_CompanyAPI_company + id;
+        String resource = RESOURCE_COMPANY_API_COMPANY + id;
 
         return this.requestService.getJSONObjectRequest(resource, getToken());
 
@@ -78,14 +78,14 @@ public class CompanyAPI {
 
         HttpEntity<String> companyHeader = this.requestService.createCompanyHeader(getToken(), companyPostObject);
 
-        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_CompanyAPI_company, companyHeader);
+        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_COMPANY_API_COMPANY, companyHeader);
 
         return stringResponseEntity.getStatusCode().toString();
     }
 
     @GetMapping
     public JSONArray getAllCompanies() throws IOException, ParseException {
-        return requestService.getJSONArrayRequest(RESOURCE_CompanyAPI_company, getToken());
+        return requestService.getJSONArrayRequest(RESOURCE_COMPANY_API_COMPANY, getToken());
     }
 
     @GetMapping(value = "/internship_overview_table")
