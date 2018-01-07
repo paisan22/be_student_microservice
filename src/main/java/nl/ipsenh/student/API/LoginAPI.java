@@ -22,7 +22,7 @@ public class LoginAPI {
     public HashMap login(@RequestHeader("email") String email, @RequestHeader("password") String password)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
-        return loginService.Authententicate(email, password);
+        return (HashMap) loginService.authententicate(email, password);
     }
 
     @GetMapping(value = "/verify")

@@ -23,13 +23,9 @@ public class StudentAPI {
     private StudentService studentService;
 
     @PostMapping(value = "/reset")
-    public boolean resetUser() {
+    public boolean resetUser() throws NoSuchAlgorithmException {
 
-        try {
-            studentService.resetStudentsForDevelopment();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        studentService.resetStudentsForDevelopment();
 
         return true;
     }
