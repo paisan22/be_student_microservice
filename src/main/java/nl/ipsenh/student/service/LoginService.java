@@ -39,8 +39,6 @@ public class LoginService {
 
         HashMap<String, String> loginStatus = setLoginStatusHashmap();
 
-
-
         // check if email exist
         Student studentByEmail = studentService.getStudentByEmail(email);
 
