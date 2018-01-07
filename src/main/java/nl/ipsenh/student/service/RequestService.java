@@ -106,7 +106,6 @@ public class RequestService {
     }
 
     public JSONArray createErrorArray(Exception e) {
-        System.out.println(e.getMessage());
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("error", e.getMessage());
@@ -115,7 +114,6 @@ public class RequestService {
     }
 
     public JSONObject createErrorObject(Exception e) {
-        System.out.println(e.getMessage());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("error", e.getMessage());
         return jsonObject;

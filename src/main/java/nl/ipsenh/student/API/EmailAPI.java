@@ -1,7 +1,6 @@
 package nl.ipsenh.student.API;
 
 import nl.ipsenh.student.service.email.EmailService;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +21,8 @@ public class EmailAPI {
     @PostMapping("/send_registration_email")
     public String sendEmail(@RequestBody HashMap<String, String> hashMap) {
         String email = hashMap.get("email");
-        String password = hashMap.get("password");
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", email);
-        jsonObject.put("password", password);
-
-        return emailService.sendRegistrationMail(email, password);
+        return emailService.sendRegistrationMail(email);
     }
 
     @PostMapping("/email_error")

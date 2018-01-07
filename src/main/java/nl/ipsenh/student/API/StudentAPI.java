@@ -23,9 +23,13 @@ public class StudentAPI {
     private StudentService studentService;
 
     @PostMapping(value = "/reset")
-    public boolean resetUser() throws Exception {
+    public boolean resetUser() {
 
-        studentService.resetStudentsForDevelopment();
+        try {
+            studentService.resetStudentsForDevelopment();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
@@ -45,10 +49,6 @@ public class StudentAPI {
 
     @PutMapping
     public Student updateStudent(@RequestBody Student student) throws NoSuchAlgorithmException {
-
-        System.out.println(student);
-        System.out.println(student.getEmail());
-
         return studentService.updateStudent(student);
     }
 
@@ -59,7 +59,6 @@ public class StudentAPI {
             studentService.deleteStudent(id);
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
 

@@ -27,7 +27,7 @@ public class EmailService {
         mailSender.send(simpleMailMessage);
     }
 
-    public String sendRegistrationMail(String email, String password) {
+    public String sendRegistrationMail(String email) {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(email);
