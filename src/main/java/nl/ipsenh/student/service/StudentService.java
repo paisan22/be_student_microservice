@@ -28,6 +28,8 @@ public class StudentService {
     @Autowired
     private EmailService emailService;
 
+    private static final String MESSAGE = "message";
+
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
@@ -44,10 +46,10 @@ public class StudentService {
 
             emailService.sendRegistrationMail(student.getEmail(), tmpPassword);
 
-            studentHashmap.put("message", "true");
+            studentHashmap.put(MESSAGE, "true");
 
         } catch (DuplicateKeyException e) {
-            studentHashmap.put("message", "DuplicateEmail");
+            studentHashmap.put(MESSAGE, "DuplicateEmail");
         }
 
         return studentHashmap;
@@ -55,7 +57,7 @@ public class StudentService {
 
     public HashMap<String, String> createStudentHashmap(Student student) {
         HashMap<String, String> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("message", "false");
+        stringStringHashMap.put(MESSAGE, "false");
         stringStringHashMap.put("email", student.getEmail());
 
         return stringStringHashMap;
@@ -118,7 +120,6 @@ public class StudentService {
             return true;
         }
         catch (NullPointerException | MailAuthenticationException exception) {
-            System.out.println(exception.getMessage());
             return false;
         }
     }
@@ -144,7 +145,7 @@ public class StudentService {
                 .middleName("de")
                 .lastName("Hans")
                 .email("s1098641@student.hsleiden.nl")
-                .phoneNumber("0612341234")
+                .phoneNumber("0612341236")
                 .password("password123")
                 .slbEmail("michiel@mail.nl")
                 .build();
@@ -154,7 +155,7 @@ public class StudentService {
                 .middleName("de")
                 .lastName("Hans")
                 .email("s1085142@student.hsleiden.nl")
-                .phoneNumber("0612341234")
+                .phoneNumber("0612341232")
                 .password("admin")
                 .slbEmail("roland@mail.nl")
                 .build();

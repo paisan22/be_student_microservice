@@ -30,6 +30,9 @@ public class CompanyAPI {
     private final String CompanyAPI_internship = companyAPI + "job_offer/";
     private final String CompanyAPI_company = companyAPI + "company/";
 
+    private static final String COMPANY_ID = "company_id";
+    private static final String COMPANY_NAME = "company_name";
+
     @Autowired
     private RequestService requestService;
 
@@ -94,10 +97,10 @@ public class CompanyAPI {
 
         for (Object jsonObject: allInternships) {
 
-            String company_id = ((JSONObject) jsonObject).get("company_id").toString();
+            String company_id = ((JSONObject) jsonObject).get(COMPANY_ID).toString();
             JSONObject company = getCompanyById(company_id);
 
-            ((JSONObject) jsonObject).put("company_name", company.get("company_name"));
+            ((JSONObject) jsonObject).put(COMPANY_NAME, company.get(COMPANY_NAME));
 
             jsonArray.add((JSONObject)jsonObject);
         }
@@ -106,7 +109,7 @@ public class CompanyAPI {
 
     private JSONObject createInternshipPostObject(HashMap<String, String> hashMap) throws ParseException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("company_id", hashMap.get("company_id"));
+        jsonObject.put(COMPANY_ID, hashMap.get(COMPANY_ID));
         jsonObject.put("title", hashMap.get("title"));
         jsonObject.put("description", hashMap.get("description"));
         jsonObject.put("start_date", hashMap.get("start_date")); // yyyy-mm-dd
@@ -144,7 +147,7 @@ public class CompanyAPI {
 
     public JSONObject createCompanyPostObject(JSONObject jsonObject) {
         JSONObject result = new JSONObject();
-        result.put("company_name", jsonObject.get("company_name"));
+        result.put(COMPANY_NAME, jsonObject.get(COMPANY_NAME));
         result.put("address", jsonObject.get("address"));
         result.put("zipcode", jsonObject.get("zipcode"));
         result.put("city", jsonObject.get("city"));

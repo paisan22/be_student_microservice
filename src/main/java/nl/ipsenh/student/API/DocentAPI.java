@@ -21,14 +21,16 @@ public class DocentAPI {
     @Autowired
     private RequestService requestService;
 
-    private final String docentAPI = "http://ipsenh.win/";
+    private static final String RESOURCE_DOCENT_API = "http://ipsenh.win/";
+
+    private static final String STAGEVOORSTEL = "stagevoorstel";
+    private static final String PERCENTAGE = "percentage";
+    private static final String SLB_EMAIL = "slbEmail";
 
     @PostMapping(value = "/internship_proposal")
     public JSONObject createProposal(@RequestBody HashMap<String, String> hashMap) {
 
-        String resource = docentAPI + "stagevoorstellen/api/listcreate/";
-
-        System.out.println("request: " + hashMap);
+        String resource = RESOURCE_DOCENT_API + "stagevoorstellen/api/listcreate/"; // can be use when the docentAPI is ready
 
         String student_email = hashMap.get("student_email");
         String mentor_id = hashMap.get("mentor_id");
@@ -44,16 +46,13 @@ public class DocentAPI {
 
         jsonObject.put("begeleiders", begeleiders);
 
-        jsonObject.put("stagevoorstel", proposal);
+        jsonObject.put(STAGEVOORSTEL, proposal);
         jsonObject.put("stage_id", stage_id);
 
         JSONObject status = new JSONObject();
         status.put("text", "In behandeling door mentor");
-        status.put("percentage", "20");
+        status.put(PERCENTAGE, "20");
         jsonObject.put("status", status);
-
-//        HttpEntity<String> headers = requestService.createHeaders();
-//        ResponseEntity<String> stringResponseEntity = requestService.performPostRequest(resource, headers);
 
         return jsonObject;
     }
@@ -66,17 +65,17 @@ public class DocentAPI {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", "123");
         jsonObject.put("name", "Alex van Manen");
-        jsonObject.put("slbEmail", "alex@mail.nl");
+        jsonObject.put(SLB_EMAIL, "alex@mail.nl");
 
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("id", "456");
         jsonObject1.put("name", "Roland Westveer");
-        jsonObject1.put("slbEmail", "roland@mail.nl");
+        jsonObject1.put(SLB_EMAIL, "roland@mail.nl");
 
         JSONObject jsonObject2 = new JSONObject();
         jsonObject2.put("id", "456");
         jsonObject2.put("name", "Michiel Boerre");
-        jsonObject2.put("slbEmail", "michiel@mail.nl");
+        jsonObject2.put(SLB_EMAIL, "michiel@mail.nl");
 
         jsonArray.add(jsonObject);
         jsonArray.add(jsonObject1);
@@ -95,9 +94,7 @@ public class DocentAPI {
         for (int i = 0; i < allDocents.size(); i++) {
 
             JSONObject o = (JSONObject) allDocents.get(i);
-            boolean slbEmail = o.get("slbEmail").equals(slb_email);
-
-            System.out.println(o.get("slbEmail"));
+            boolean slbEmail = o.get(SLB_EMAIL).equals(slb_email);
 
             if (slbEmail) {
                 return o;
@@ -118,26 +115,26 @@ public class DocentAPI {
 
         JSONObject jsonObject = new JSONObject();
         JSONObject status = new JSONObject();
-        status.put("percentage", 0);
+        status.put(PERCENTAGE, 0);
 
         jsonObject.put("internship_description", "Bedrijfsbeschrijving");
         jsonObject.put("company_name", "bedrijfsnaam");
 
         // email van mike
         if (Objects.equals(email, "s1098641@student.hsleiden.nl")) {
-            jsonObject.put("stagevoorstel", "test voorstel beschrijving van mike");
+            jsonObject.put(STAGEVOORSTEL, "test voorstel beschrijving van mike");
 
             status.put("text", "Aanpassingen van de student vereist");
-            status.put("percentage", 12);
+            status.put(PERCENTAGE, 12);
 
         }
 
         // email van gerben
         if (Objects.equals(email, "s1085142@student.hsleiden.nl")) {
-            jsonObject.put("stagevoorstel", "test voorstel beschrijving van gerben");
+            jsonObject.put(STAGEVOORSTEL, "test voorstel beschrijving van gerben");
 
             status.put("text", "Stagevoorstel goedgekeurd! Je bent klaar om stage te lopen.");
-            status.put("percentage", 100);
+            status.put(PERCENTAGE, 100);
         }
 
         jsonObject.put("status", status);
