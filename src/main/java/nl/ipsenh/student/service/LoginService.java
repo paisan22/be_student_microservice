@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -34,7 +35,7 @@ public class LoginService {
     private static final String PASSWORD = "password";
     private static final String FALSE = "false";
 
-    public HashMap<String, String> Authententicate(String email, String password)
+    public Map<String, String> authententicate(String email, String password)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         HashMap<String, String> loginStatus = setLoginStatusHashmap();

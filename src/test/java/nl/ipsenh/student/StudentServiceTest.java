@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import static org.hamcrest.core.Is.is;
@@ -47,6 +48,15 @@ public class StudentServiceTest {
 
     }
 
+    @Test
+    public void testHashPassword() throws NoSuchAlgorithmException {
+        String password = "password123";
+        String hash = "482C811DA5D5B4BC6D497FFA98491E38";
 
+        String result = studentService.hashPassword(password);
+
+        Assert.assertThat(result, is(hash));
+
+    }
 
 }

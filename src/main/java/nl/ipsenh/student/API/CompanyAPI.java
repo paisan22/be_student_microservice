@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -72,15 +73,18 @@ public class CompanyAPI {
     }
 
     @PostMapping
-    public String createCompany(@RequestBody JSONObject jsonObject) throws IOException {
+    public String createCompany(@RequestBody JSONObject jsonObject) throws IOException, HttpClientErrorException {
 
         JSONObject companyPostObject = createCompanyPostObject(jsonObject);
 
         HttpEntity<String> companyHeader = this.requestService.createCompanyHeader(getToken(), companyPostObject);
 
-        ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_COMPANY_API_COMPANY, companyHeader);
-
-        return stringResponseEntity.getStatusCode().toString();
+        try {
+            ResponseEntity<String> stringResponseEntity = this.requestService.performPostRequest(RESOURCE_COMPANY_API_COMPANY, companyHeader);
+            return stringResponseEntity.getStatusCode().toString();
+        } catch (HttpClientErrorException e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping
