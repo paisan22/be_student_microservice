@@ -46,8 +46,8 @@ public class StudentService {
 
             studentHashmap.put(MESSAGE, "true");
 
-        } catch (DuplicateKeyException e) {
-            studentHashmap.put(MESSAGE, "DuplicateEmail");
+        } catch (DuplicateKeyException | NullPointerException e) {
+            studentHashmap.put(MESSAGE, e.getMessage());
         }
 
         return studentHashmap;
@@ -93,6 +93,7 @@ public class StudentService {
     public Student getStudentByEmail(String email) {
         return studentRepository.findByEmail(email);
     }
+
     public String hashPassword(String password) throws NoSuchAlgorithmException {
 
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -122,7 +123,7 @@ public class StudentService {
         }
     }
 
-    private String getRandomPassword() {
+    public String getRandomPassword() {
         String characters =
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";
         return RandomStringUtils.random( 15, characters );

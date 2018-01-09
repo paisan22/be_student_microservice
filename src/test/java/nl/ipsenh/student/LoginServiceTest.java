@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -22,6 +24,7 @@ import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 /**
@@ -123,9 +126,34 @@ public class LoginServiceTest {
         Assert.assertFalse(result2);
     }
 
-    public Student getStudentByEmail(String email) {
-        return studentRepository.findByEmail(email);
+    @Test
+    public void testResetPassword() throws NoSuchAlgorithmException {
+
+        when(this.studentService.resetPassword(Matchers.contains("test@mail.com")))
+                .thenReturn(true);
+
+        HashMap<String, String> result = this.loginService.resetPassword("test@mail.com", new HashMap<String, String>());
+
+        Assert.assertThat(result.get("status"), is("true"));
+        Assert.assertThat(result.get("message"), is("reset password done"));
+        Mockito.verify(this.studentService, times(1)).resetPassword(Matchers.contains("test@mail.com"));
+
     }
 
+    @Test
+    public void testEmailExists() {
+
+        when(this.studentService.getStudentByEmail(Matchers.contains("test@mail.com")))
+                .thenReturn(this.student);
+
+        boolean result = this.loginService.emailExists(this.student.getEmail());
+        boolean result2 = this.loginService.emailExists("wrong@mail.nl");
+
+
+        Assert.assertThat(result, is(true));
+        Assert.assertThat(result2, is(false));
+
+
+    }
 
 }

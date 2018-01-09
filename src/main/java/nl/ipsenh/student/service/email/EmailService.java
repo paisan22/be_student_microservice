@@ -20,37 +20,42 @@ public class EmailService {
     private String emailOwner;
 
     public void sendNewPassword(String email, String password) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("Nieuw wachtwoord voor HSSTIP");
-        simpleMailMessage.setText("Je nieuwe wachtwoord voor HSSTIP is: " + password);
-        mailSender.send(simpleMailMessage);
+        mailSender.send(createNewEmail(
+                email,
+                "Nieuw wachtwoord voor HSSTIP",
+                "Je nieuwe wachtwoord voor HSSTIP is: " + password));
     }
 
     public String sendRegistrationMail(String email) {
 
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("Nieuw account op HSSTIP aangemaakt");
-        simpleMailMessage.setText("Er is een nieuw account aangemaakt voor jou op hsstip. Je kunt inloggen met het volgende e-mail: " + email);
+        SimpleMailMessage newEmail = createNewEmail(
+                email,
+                "Nieuw account op HSSTIP aangemaakt",
+                "Er is een nieuw account aangemaakt voor jou op hsstip. Je kunt inloggen met het volgende e-mail: " + email
+        );
 
-        mailSender.send(simpleMailMessage);
+        mailSender.send(newEmail);
 
-        return simpleMailMessage.getFrom();
+        return newEmail.getFrom();
     }
 
     public void sendErrorToOwner(String error, String datetime, String attemptMessage) {
 
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(this.emailOwner);
-        simpleMailMessage.setSubject("Error notification from HSSTIP");
-        simpleMailMessage.setText(
+        mailSender.send(createNewEmail(
+                this.emailOwner,
+                "Error notification from HSSTIP",
                 "Date time: " + datetime + "\n" +
-                "Error: " + error + "\n" +
-                "Attempt to: " + attemptMessage + "\n"
-        );
-
-        mailSender.send(simpleMailMessage);
+                        "Error: " + error + "\n" +
+                        "Attempt to: " + attemptMessage + "\n"
+        ));
     }
 
+    public SimpleMailMessage createNewEmail(String to, String subject, String text) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(text);
+
+        return simpleMailMessage;
+    }
 }
