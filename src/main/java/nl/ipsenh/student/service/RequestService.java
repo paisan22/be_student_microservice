@@ -57,9 +57,7 @@ public class RequestService {
     public HttpEntity<String> createHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> parameters = new HttpEntity<>("parameters", httpHeaders);
-
-        return parameters;
+        return new HttpEntity<>("parameters", httpHeaders);
     }
 
     public HttpEntity<String> createCompanyHeader(String token) {
@@ -79,13 +77,26 @@ public class RequestService {
     }
 
     public ResponseEntity<String> performGetRequest(String resource, HttpEntity<String> headers) {
+
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(resource, HttpMethod.GET, headers, String.class);
+
+        try {
+            return restTemplate.exchange(resource, HttpMethod.GET, headers, String.class);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     public ResponseEntity<String> performPostRequest(String resource, HttpEntity<String> headers) {
+
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(resource, headers, String.class);
+
+        try {
+            return restTemplate.postForEntity(resource, headers, String.class);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public JSONArray parseResponseToJSONArray(ResponseEntity<String> response) throws ParseException {
