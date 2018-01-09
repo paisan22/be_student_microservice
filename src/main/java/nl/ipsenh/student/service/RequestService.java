@@ -21,7 +21,6 @@ public class RequestService {
         HttpEntity<String> headers = createHeaders();
 
         try {
-
             ResponseEntity<String> stringResponseEntity = performGetRequest(resource, headers);
             return parseResponseToJSONArray(stringResponseEntity);
         }
