@@ -130,14 +130,16 @@ public class StudentService {
     }
 
     public void resetStudentsForDevelopment() throws NoSuchAlgorithmException {
-        Student student = Student.builder()
-                .surName("Hans")
-                .lastName("Gans")
-                .email("s1088395@student.hsleiden.nl")
-                .phoneNumber("0612341234")
-                .password("password123")
-                .slbEmail("alex@mail.nl")
-                .build();
+//        Student student = Student.builder()
+//                .surName("Hans")
+//                .lastName("Gans")
+//                .email("s1088395@student.hsleiden.nl")
+//                .phoneNumber("0612341234")
+//                .password("password123")
+//                .slbEmail("alex@mail.nl")
+//                .build();
+
+
 
         Student student2 = Student.builder()
                 .surName("Mike")
@@ -161,11 +163,12 @@ public class StudentService {
 
         this.studentRepository.deleteAll();
 
-        student.setPassword(hashPassword(student.getPassword()));
+        //        student.setPassword(hashPassword(student.getPassword()));
+        //        studentRepository.save(student);
+
         student2.setPassword(hashPassword(student2.getPassword()));
         student3.setPassword(hashPassword(student3.getPassword()));
 
-        studentRepository.save(student);
         studentRepository.save(student2);
         studentRepository.save(student3);
     }
