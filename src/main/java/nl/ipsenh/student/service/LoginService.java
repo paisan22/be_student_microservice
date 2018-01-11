@@ -49,7 +49,7 @@ public class LoginService {
 
         loginStatus.put(PASSWORD, isCorrectPassword(studentByEmail, password));
 
-        if (isCorrectLogin(loginStatus)) {
+        if (!isCorrectLogin(loginStatus)) {
             loginStatus.put("token", createToken(studentByEmail));
         }
 
